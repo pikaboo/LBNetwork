@@ -5,6 +5,7 @@
 *.moved-aside
 *.xcuserstate
 *.xcscmblueprint
+*xcscheme
 ## Build generated
 build/
 DerivedData
