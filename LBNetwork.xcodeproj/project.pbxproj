@@ -207,13 +207,13 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5A427D9619A3459900BAB461 /* LBNetwork.h in Headers */,
 				BFB6547D1B7A364800A96D6F /* LICENSE in Headers */,
 				5A427D9019A3457D00BAB461 /* LBURLConnectionWithResponseHandler.h in Headers */,
 				5A427D9119A3457F00BAB461 /* HTTPStatusCodes.h in Headers */,
 				5A427D9219A3458200BAB461 /* LBServerResponse.h in Headers */,
 				5A427D9319A3458A00BAB461 /* LBHTTPSClient.h in Headers */,
 				5A427D9419A3459000BAB461 /* Logging.h in Headers */,
-				5A427D9619A3459900BAB461 /* LBNetwork.h in Headers */,
 				5A427D9719A3459C00BAB461 /* LBURLConnectionProperties.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -475,7 +475,9 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "LBNetwork/LBNetwork-Prefix.pch";
 				OTHER_LDFLAGS = "-ObjC";
+				PRIVATE_HEADERS_FOLDER_PATH = usr/local/include;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PUBLIC_HEADERS_FOLDER_PATH = usr/local/include;
 				SKIP_INSTALL = YES;
 			};
 			name = Debug;
@@ -487,7 +489,9 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "LBNetwork/LBNetwork-Prefix.pch";
 				OTHER_LDFLAGS = "-ObjC";
+				PRIVATE_HEADERS_FOLDER_PATH = usr/local/include;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PUBLIC_HEADERS_FOLDER_PATH = usr/local/include;
 				SKIP_INSTALL = YES;
 			};
 			name = Release;
