@@ -36,6 +36,10 @@ NSString* const ContentTypeWWWEncoded = @"application/x-www-form-urlencoded";
 NSString* const DataContentTypeImage = @"image/jpeg";
 NSString* const DataContentTypeVideo = @"application/octet-stream";
 
+#define LBShowLog [LBHTTPSClient shouldLog]
+#define LBLogDebug(fmt,...) if (LBShowLog) LogDebug(fmt,##__VA_ARGS__)
+#define LBLogInfo(fmt,...)  if (LBShowLog) LogInfo(fmt,##__VA_ARGS__)
+#define LBLogError(fmt,...) if (LBShowLog) LogError(fmt,##__VA_ARGS__)
 @interface LBHTTPSClient ()
 @property(nonatomic, strong) UIAlertView* alert;
 @end
@@ -154,22 +158,16 @@ static LBHTTPSClient* sharedClient;
        
         if (![path hasSuffix:@"?"]) {
             [pathWithParams appendString:@"?"];
-            if([LBHTTPSClient shouldLog]){
-                LogDebug(@"added ?");
-            }
+                LBLogDebug(@"added ?");
         }
 
         for (NSString *key in [params allKeys]) {
             NSString *param = [NSString stringWithFormat:@"%@=%@",key,[params objectForKey:key]];
             [pathWithParams appendFormat:@"%@&",param];
-            if([LBHTTPSClient shouldLog]){
-                LogDebug(@"added param:%@",param);
-            }
+                LBLogDebug(@"added param:%@",param);
             [request setURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@",path,pathWithParams]]];
         }
-        if ([LBHTTPSClient shouldLog]) {
-            LogDebug(@"path with params:%@",[[request URL]absoluteString]);
-        }
+            LBLogDebug(@"path with params:%@",[[request URL]absoluteString]);
 
     }
 
@@ -335,10 +333,8 @@ static LBHTTPSClient* sharedClient;
             trust = challenge.protectionSpace.serverTrust;
             //
 #if DEBUG
-            if([LBHTTPSClient shouldLog]){
-            LogDebug(@"The certificate is expected to match '%@' as the hostname",
+            LBLogDebug(@"The certificate is expected to match '%@' as the hostname",
                   challenge.protectionSpace.host);
-            }
 #endif
         } else {
             // Create a new Policy - which goes easy on the hostname.
@@ -360,10 +356,8 @@ static LBHTTPSClient* sharedClient;
                 err = SecTrustCreateWithCertificates((__bridge CFArrayRef)(chain),
                                                      SecPolicyCreateBasicX509(), &trust);
 #if DEBUG
-            if([LBHTTPSClient shouldLog]){
-            LogDebug(@"The certificate is NOT expected to match the hostname '%@' ",
+            LBLogDebug(@"The certificate is NOT expected to match the hostname '%@' ",
                   challenge.protectionSpace.host);
-            }
 #endif
         };
         
@@ -388,9 +382,7 @@ static LBHTTPSClient* sharedClient;
                     // User gave explicit permission to trust this specific
                     // root at some point (in the past).
                     //
-                    if([LBHTTPSClient shouldLog]){
-                    LogDebug(@"GOOD. kSecTrustResultProceed - the user explicitly trusts this CA");
-                    }
+                    LBLogDebug(@"GOOD. kSecTrustResultProceed - the user explicitly trusts this CA");
                     [challenge.sender useCredential:[NSURLCredential credentialForTrust:trust]
                          forAuthenticationChallenge:challenge];
                     goto done;
@@ -400,37 +392,25 @@ static LBHTTPSClient* sharedClient;
                     // we provided. The user has not had any say in this though,
                     // hence it is not a kSecTrustResultProceed.
                     //
-                    if([LBHTTPSClient shouldLog]){
-                    LogDebug(@"GOOD. kSecTrustResultUnspecified - So things are technically trusted. But the user was not involved.");
-                    }
+                    LBLogDebug(@"GOOD. kSecTrustResultUnspecified - So things are technically trusted. But the user was not involved.");
                     [challenge.sender useCredential:[NSURLCredential credentialForTrust:trust]
                          forAuthenticationChallenge:challenge];
                     goto done;
                     break;
                 case kSecTrustResultInvalid:
-                    if([LBHTTPSClient shouldLog]){
-                    LogDebug(@"FAIL. kSecTrustResultInvalid");
-                    }
+                    LBLogDebug(@"FAIL. kSecTrustResultInvalid");
                     break;
                 case kSecTrustResultDeny:
-                    if([LBHTTPSClient shouldLog]){
-                    LogDebug(@"FAIL. kSecTrustResultDeny (i.e. user said no explicitly)");
-                    }
+                    LBLogDebug(@"FAIL. kSecTrustResultDeny (i.e. user said no explicitly)");
                     break;
                 case kSecTrustResultFatalTrustFailure:
-                    if([LBHTTPSClient shouldLog]){
-                    LogDebug(@"FAIL. kSecTrustResultFatalTrustFailure");
-                    }
+                    LBLogDebug(@"FAIL. kSecTrustResultFatalTrustFailure");
                     break;
                 case kSecTrustResultOtherError:
-                    if([LBHTTPSClient shouldLog]){
-                    LogDebug(@"FAIL. kSecTrustResultOtherError");
-                    }
+                    LBLogDebug(@"FAIL. kSecTrustResultOtherError");
                     break;
                 case kSecTrustResultRecoverableTrustFailure:
-                    if([LBHTTPSClient shouldLog]){
-                    LogDebug(@"FAIL. kSecTrustResultRecoverableTrustFailure (i.e. user could say OK, but has not been asked this)");
-                    }
+                    LBLogDebug(@"FAIL. kSecTrustResultRecoverableTrustFailure (i.e. user could say OK, but has not been asked this)");
                     break;
                 default:
                     NSAssert(NO, @"Unexpected result: %d", result);
@@ -458,9 +438,7 @@ static LBHTTPSClient* sharedClient;
     //
     // [challenge.sender continueWithoutCredentialForAuthenticationChallenge:challenge];
     
-    if([LBHTTPSClient shouldLog]){
-    LogDebug(@"Not something we can handle - so we're canceling it.");
-    }
+    LBLogDebug(@"Not something we can handle - so we're canceling it.");
     [challenge.sender cancelAuthenticationChallenge:challenge];
 }
 
@@ -469,11 +447,9 @@ static LBHTTPSClient* sharedClient;
     
     [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
     LBURLConnectionWithResponseHandler* con = (LBURLConnectionWithResponseHandler*)connection;
-    if([LBHTTPSClient shouldLog]){
-        LogDebug(@"%@", [NSString stringWithFormat:@"Did recieve error: %@", [error description]]);
-        LogDebug(@"%@", [NSString stringWithFormat:@"%@", [[error userInfo] description]]);
-        LogDebug(@"response:%@",con.rawResponse);
-    }
+        LBLogDebug(@"%@", [NSString stringWithFormat:@"Did recieve error: %@", [error description]]);
+        LBLogDebug(@"%@", [NSString stringWithFormat:@"%@", [[error userInfo] description]]);
+        LBLogDebug(@"response:%@",con.rawResponse);
 
     BOOL shouldRetryRequest = NO;
     if([[self.connectionProperties errorHandler]respondsToSelector:@selector(shouldRetryRequest:forCurrentTry:)]){
@@ -542,11 +518,9 @@ static LBHTTPSClient* sharedClient;
 - (void)sendRequestToPath:(NSString*)path params:(NSDictionary*)params body:(NSString*)body headers:(NSDictionary*)headers method:(NSString*)method responseHandler:(LBServerResponseHandler)responseHandler
 {
 
-    if([LBHTTPSClient shouldLog]){
-        LogTrace(@"sending %@ request to path:%@",method, path);
-        LogDebug(@"withParams:%@, andBody:%@, andHeaders:%@,handingResponse:%d", params, body, headers, (responseHandler != nil));
+        LBLogInfo(@"sending %@ request to path:%@",method, path);
+        LBLogDebug(@"withParams:%@, andBody:%@, andHeaders:%@,handingResponse:%d", params, body, headers, (responseHandler != nil));
 
-    }
     [self asyncRequestDataFromURL:[NSURL URLWithString:path]
                            method:method
                        parameters:params
