@@ -24,6 +24,7 @@
 
 
 #import "LBURLConnection.h"
+#import "LBServerRequest.h"
 @class LBServerResponse;
 @class LBURLConnectionProperties;
 @class UIImage;
@@ -57,9 +58,8 @@ extern NSString* const DataContentTypeVideo;
 
 
 +(instancetype)sharedClient;
--(void)sendRequestToPath:(NSString *)path params:(NSDictionary *)params body:(NSString *)body headers:(NSDictionary *)headers method:(NSString *)method responseHandler:(LBServerResponseHandler)responseHandler;
--(void)asyncImageUpload:(UIImage *)image toPath:(NSString *)path headers:(NSDictionary *)headers parameters:(NSDictionary *)parameters fileName:(NSString *)fileName responseHandler:(LBServerResponseHandler)serverResponseHandler;
--(void)asyncUploadData:(NSData *)data contentType:(NSString *)dataContentType toPath:(NSString *)path headers:(NSDictionary *)headers parameters:(NSDictionary *)parameters fileName:(NSString *)fileName responseHandler:(LBServerResponseHandler)serverResponseHandler;
+-(void)sendRequest:(LBServerRequest *)request;
+-(void)asyncUploadRequestData:(LBServerRequest *)serverRequest fileName:(NSString *)fileName;
 -(BOOL)addWithRootCA:(NSString *)caDerFilePath strictHostNameCheck:(BOOL)check;
 
 +(BOOL)shouldLog;

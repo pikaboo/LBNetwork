@@ -42,13 +42,14 @@ NSString* const DataContentTypeVideo = @"application/octet-stream";
 #define LBLogError(fmt,...) if (LBShowLog) LogError(fmt,##__VA_ARGS__)
 @interface LBHTTPSClient ()
 @property(nonatomic, strong) UIAlertView* alert;
+@property (nonatomic,strong)NSOperationQueue *connectionQueue;
 @end
 @implementation LBHTTPSClient {
     CFArrayRef caChainArrayRef;
     BOOL checkHostname;
 }
 
-static LBHTTPSClient* sharedClient;
+static id sharedClient;
 
 + (instancetype)sharedClient
 {
@@ -81,6 +82,7 @@ static LBHTTPSClient* sharedClient;
         self.connectionProperties = [[LBURLConnectionProperties alloc]init];
         self.connectionProperties.maxRetryCount = 3;
         self.connectionProperties.logLevel = LogLevelDebug;
+        self.connectionQueue = [[NSOperationQueue alloc]init];
     }
     return self;
 }
@@ -112,151 +114,139 @@ static LBHTTPSClient* sharedClient;
 
 #pragma mark - request with authentication challenge
 
-- (void)asyncRequestDataFromURL:(NSURL*)url method:(NSString*)method parameters:(NSDictionary *)params bodyString:(NSString*)bodyString requestBody:(NSData*)bodyData headers:(NSDictionary*)headers andServerResponseHandler:(LBServerResponseHandler)serverResponseHandler
+- (void)asyncRequestDataForServerRequest:(LBServerRequest *)serverRequest
 {
     
-    NSMutableURLRequest* request = [[NSMutableURLRequest alloc] initWithURL:url
+    NSMutableURLRequest* httpRequest = [[NSMutableURLRequest alloc] initWithURL:serverRequest.requestURL
                                                                 cachePolicy:_defaultCachePolicy
                                                             timeoutInterval:_defaultTimeoutInSeconds];
-    [request setHTTPMethod:method];
+    [httpRequest setHTTPMethod:serverRequest.method];
     
     if ([_requestContentType isEqualToString:ContentTypeAutomatic]) {
         //automatic content type
-        if (bodyData) {
-            NSString* bodyString = [[NSString alloc] initWithData:bodyData
+        if (serverRequest.requestBodyData) {
+            NSString* bodyString = [[NSString alloc] initWithData:serverRequest.requestBodyData
                                                          encoding:NSUTF8StringEncoding];
-            [request setValue:[LBHTTPSClient contentTypeForRequestString:bodyString]
+            [httpRequest setValue:[LBHTTPSClient contentTypeForRequestString:bodyString]
            forHTTPHeaderField:@"Content-type"];
         }
     } else {
         //user set content type
-        [request setValue:_requestContentType
-       forHTTPHeaderField:@"Content-type"];
+        [httpRequest setValue:_requestContentType forHTTPHeaderField:@"Content-type"];
     }
     
-    //    //add all the custom headers defined
-    //    for (NSString* key in [requestHeaders allKeys]) {
-    //        [request setValue:requestHeaders[key] forHTTPHeaderField:key];
-    //    }
     
     //add the custom headers
-    for (NSString* key in [headers allKeys]) {
-        [request setValue:headers[key]
-       forHTTPHeaderField:key];
+    for (NSString* key in [serverRequest.headers allKeys]) {
+        [httpRequest setValue:serverRequest.headers[key] forHTTPHeaderField:key];
     }
     
-    if (bodyData && ![method isEqualToString:kMethodGET]) {
-        [request setHTTPBody:bodyData];
-        [request setValue:[NSString stringWithFormat:@"%lu", (unsigned long)bodyData.length]
-       forHTTPHeaderField:@"Content-Length"];
+    if (serverRequest.requestBodyData && ![serverRequest.method isEqualToString:kMethodGET]) {
+        [httpRequest setHTTPBody:serverRequest.requestBodyData];
+        [httpRequest setValue:[NSString stringWithFormat:@"%lu", (unsigned long)serverRequest.requestBodyData.length] forHTTPHeaderField:@"Content-Length"];
     }
 
-    NSMutableString *pathWithParams = nil;
-    if ([method isEqualToString:kMethodGET]) {
-        pathWithParams = [[NSMutableString alloc]init];
-        NSString *path = [url absoluteString];
-       
+    if ([serverRequest.method isEqualToString:kMethodGET]) {
+        NSMutableArray *pathWithParams  = [[NSMutableArray alloc]init];
+        NSMutableString *path = [serverRequest.path mutableCopy];
+
+        for (NSString *key in [serverRequest.params allKeys]) {
+            NSString *param = [NSString stringWithFormat:@"%@=%@",key,[serverRequest.params objectForKey:key]];
+            [pathWithParams addObject:param];
+             LBLogDebug(@"added param:%@",param);
+        }
+        
         if (![path hasSuffix:@"?"]) {
-            [pathWithParams appendString:@"?"];
-                LBLogDebug(@"added ?");
+            [path appendString:@"?"];
+            LBLogDebug(@"added '?'");
         }
-
-        for (NSString *key in [params allKeys]) {
-            NSString *param = [NSString stringWithFormat:@"%@=%@",key,[params objectForKey:key]];
-            [pathWithParams appendFormat:@"%@&",param];
-                LBLogDebug(@"added param:%@",param);
-            [request setURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@",path,pathWithParams]]];
-        }
-            LBLogDebug(@"path with params:%@",[[request URL]absoluteString]);
+        [path appendFormat:@"%@",[pathWithParams componentsJoinedByString:@"&"]];
+        [httpRequest setURL:[NSURL URLWithString:path]];
+            LBLogDebug(@"path with params:%@",[[httpRequest URL]absoluteString]);
 
     }
 
-
+    serverRequest.httpRequest = httpRequest;
 
     //fire the request
-    [self startRequest:request body:bodyString andServerResponseHandler:serverResponseHandler];
+    [self startRequest:serverRequest];
 }
 
--(void)startRequest:(NSMutableURLRequest *)request body:(NSString *)body andServerResponseHandler:(LBServerResponseHandler)serverResponseHandler{
-    LBURLConnectionWithResponseHandler* con = [[LBURLConnectionWithResponseHandler alloc] initWithRequest:request
-                                                                                                 delegate:self];
-    con.responseHandler = serverResponseHandler;
-    con.requestBody = [body copy];
+-(void)startRequest:(LBServerRequest *)request{
+    LBURLConnection* con = [[LBURLConnection alloc] initWithRequest:request delegate:self];
     con.retries = 1;
     if ([[self.connectionProperties errorHandler] shouldDisplayActivityIndicatorForRequest:[con originalRequest]]) {
         [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:YES];
     }
+    [con setDelegateQueue:self.connectionQueue];
     [con start];
+    LBLogDebug(@"started connection");
 }
 
--(void)asyncUploadData:(NSData *)data contentType:(NSString *)dataContentType toPath:(NSString *)path headers:(NSDictionary *)headers parameters:(NSDictionary *)parameters fileName:(NSString *)fileName responseHandler:(LBServerResponseHandler)serverResponseHandler{
-    NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:[NSURL URLWithString:path]];
-    [request setCachePolicy:NSURLRequestReloadIgnoringLocalCacheData];
-    [request setHTTPShouldHandleCookies:NO];
-    [request setTimeoutInterval:60];
-    [request setHTTPMethod:kMethodPOST];
+-(void)asyncUploadRequestData:(LBServerRequest *)serverRequest fileName:(NSString *)fileName {
+    NSMutableURLRequest *httpRequest = [[NSMutableURLRequest alloc] initWithURL:serverRequest.requestURL];
+    [httpRequest setCachePolicy:_defaultCachePolicy];
+    [httpRequest setHTTPShouldHandleCookies:NO];
+    [httpRequest setTimeoutInterval:_defaultTimeoutInSeconds];
+    [httpRequest setHTTPMethod:kMethodPOST];
     
-    for (NSString* key in [headers allKeys]) {
-        [request setValue:headers[key]
-       forHTTPHeaderField:key];
+    for (NSString* key in [serverRequest.headers allKeys]) {
+        [httpRequest setValue:serverRequest.headers[key] forHTTPHeaderField:key];
     }
     
     NSString *boundary = @"lb_network_boundary_multipart_request";
     
     // set Content-Type in HTTP header
     NSString *contentType = [NSString stringWithFormat:@"multipart/form-data; boundary=%@", boundary];
-    [request setValue:contentType forHTTPHeaderField: @"Content-Type"];
+    [httpRequest setValue:contentType forHTTPHeaderField: @"Content-Type"];
     
     // post body
     NSMutableData *body = [NSMutableData data];
     
     // add params (all params are strings)
-    for(NSString *key in [parameters allKeys]){
+    for(NSString *key in [serverRequest.params allKeys]){
         [body appendData:[[NSString stringWithFormat:@"--%@\r\n", boundary] dataUsingEncoding:NSUTF8StringEncoding]];
         [body appendData:[[NSString stringWithFormat:@"Content-Disposition: form-data; name=%@\r\n\r\n", key] dataUsingEncoding:NSUTF8StringEncoding]];
-        [body appendData:[[NSString stringWithFormat:@"%@\r\n", [parameters objectForKey:key]] dataUsingEncoding:NSUTF8StringEncoding]];
+        [body appendData:[[NSString stringWithFormat:@"%@\r\n", [serverRequest.params objectForKey:key]] dataUsingEncoding:NSUTF8StringEncoding]];
     }
     // add image data
-    if (data) {
+    if (serverRequest.requestBodyData) {
         [body appendData:[[NSString stringWithFormat:@"--%@\r\n", boundary] dataUsingEncoding:NSUTF8StringEncoding]];
         [body appendData:[[NSString stringWithFormat:@"Content-Disposition: form-data; name=%@; filename=%@\r\n", @"file",fileName] dataUsingEncoding:NSUTF8StringEncoding]];
         
-        [body appendData:[[NSString stringWithFormat:@"Content-Type: %@\r\n\r\n",dataContentType] dataUsingEncoding:NSUTF8StringEncoding]];
+        [body appendData:[[NSString stringWithFormat:@"Content-Type: %@\r\n\r\n",serverRequest.dataContentType] dataUsingEncoding:NSUTF8StringEncoding]];
         
         
-        if([[self class]shouldLog]){
-            LogInfo(@"requestBody:%@",[[NSString alloc]initWithData:body encoding:NSUTF8StringEncoding]);
-        }
-        [body appendData:data];
+        LBLogInfo(@"requestBody:%@",[[NSString alloc]initWithData:body encoding:NSUTF8StringEncoding]);
+        [body appendData:serverRequest.requestBodyData];
         [body appendData:[[NSString stringWithFormat:@"\r\n"] dataUsingEncoding:NSUTF8StringEncoding]];
     }
     
     [body appendData:[[NSString stringWithFormat:@"--%@--\r\n", boundary] dataUsingEncoding:NSUTF8StringEncoding]];
     
     // setting the body of the post to the reqeust
-    [request setHTTPBody:body];
+    [httpRequest setHTTPBody:body];
     
     // set the content-length
     NSString *postLength = [NSString stringWithFormat:@"%lu", (unsigned long)[body length]];
-    [request setValue:postLength forHTTPHeaderField:@"Content-Length"];
+    [httpRequest setValue:postLength forHTTPHeaderField:@"Content-Length"];
     
-    
-    [self startRequest:request body:nil andServerResponseHandler:serverResponseHandler];
+    serverRequest.httpRequest = httpRequest;
+    [self startRequest:serverRequest];
 }
 
--(void)asyncImageUpload:(UIImage *)image toPath:(NSString *)path headers:(NSDictionary *)headers parameters:(NSDictionary *)parameters fileName:(NSString *)fileName responseHandler:(LBServerResponseHandler)serverResponseHandler{
-    
-    
-    NSData *imageData = UIImageJPEGRepresentation(image, 1.0);
-    [self asyncUploadData:imageData contentType:DataContentTypeImage toPath:path headers:headers parameters:parameters fileName:fileName responseHandler:serverResponseHandler];
-    
-}
+//-(void)asyncImageUpload:(UIImage *)image toPath:(NSString *)path headers:(NSDictionary *)headers parameters:(NSDictionary *)parameters fileName:(NSString *)fileName responseHandler:(LBServerResponseHandler)serverResponseHandler{
+//    
+//    
+//    NSData *imageData = UIImageJPEGRepresentation(image, 1.0);
+//    //TODO
+////    [self asyncUploadData:imageData contentType:DataContentTypeImage toPath:path headers:headers parameters:parameters fileName:fileName responseHandler:serverResponseHandler];
+//    
+//}
 
 - (void)connection:(NSURLConnection*)connection didReceiveResponse:(NSURLResponse*)response
 {
-    if([LBHTTPSClient shouldLog]){
-    LogDebug(@"Response recieved from url:%@", [[[connection originalRequest] URL] description]);
-    }
+    LBLogDebug(@"Response recieved from url:%@", [[[connection originalRequest] URL] description]);
     NSHTTPURLResponse* httpResponse = (NSHTTPURLResponse*)response;
     LBURLConnection* con = (LBURLConnection*)connection;
     [con setRawResponse:httpResponse];
@@ -273,23 +263,33 @@ static LBHTTPSClient* sharedClient;
 {
     LBURLConnection* con = (LBURLConnection*)connection;
     NSData* data = [con data];
-    NSString* responseString = [[NSString alloc] initWithData:data
-                                                     encoding:NSUTF8StringEncoding];
-    if([LBHTTPSClient shouldLog]){
-    LogDebug(@"Data recieved:%@", responseString);
-    }
-    LBServerResponse* response = [LBServerResponse handleServerResponse:[con rawResponse]
-                                                      responseString:responseString
-                                                               error:nil];
-    if (con.responseHandler) {
-        con.responseHandler(response);
+    
+    LBLogDebug(@"Data recieved:%@", [data toString]);
+    LBLogDebug(@"statusCode:%@",@(con.rawResponse.statusCode));
+    id<LBDeserializer> deserializer = [self.connectionProperties deserializerForContentType:[con responseContentType]];
+    LBServerResponse* response = [LBServerResponse handleServerResponse:con deserializer:deserializer error:nil];
+    //[LBServerResponse handleServerResponse:[con rawResponse]
+                  //                                    responseString:responseString
+                    //                                           error:nil];
+    
+    
+    if (con.request.responseHandler) {
+        LBLogDebug(@"onMainThread? %lu",(long)[NSThread isMainThread]);
+        dispatch_async(dispatch_get_main_queue(), ^{
+            con.request.responseHandler(response);
+        });
     }
     [self handleErrorIfNeeded:response];
-    con.responseHandler = nil;
+    
     [con cancel];
+    [con.request cleanUp];
     [con.data setLength:0];
     con = nil;
     [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
+}
+
+- (NSCachedURLResponse *)connection:(NSURLConnection *)connection willCacheResponse:(NSCachedURLResponse *)cachedResponse {
+    return nil;
 }
 
 - (BOOL)connection:(NSURLConnection*)connection canAuthenticateAgainstProtectionSpace:(NSURLProtectionSpace*)protectionSpace
@@ -446,10 +446,11 @@ static LBHTTPSClient* sharedClient;
 {
     
     [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
-    LBURLConnectionWithResponseHandler* con = (LBURLConnectionWithResponseHandler*)connection;
+    LBURLConnection* con = (LBURLConnection*)connection;
         LBLogDebug(@"%@", [NSString stringWithFormat:@"Did recieve error: %@", [error description]]);
         LBLogDebug(@"%@", [NSString stringWithFormat:@"%@", [[error userInfo] description]]);
         LBLogDebug(@"response:%@",con.rawResponse);
+        LBLogDebug(@"statusCode:%@",@(con.rawResponse.statusCode));
 
     BOOL shouldRetryRequest = NO;
     if([[self.connectionProperties errorHandler]respondsToSelector:@selector(shouldRetryRequest:forCurrentTry:)]){
@@ -474,7 +475,7 @@ static LBHTTPSClient* sharedClient;
             });
            
         }
-        con.responseHandler = nil;
+        con.request.responseHandler = nil;
         [con.data setLength:0];
         con = nil;
         response.error = error;
@@ -512,19 +513,12 @@ static LBHTTPSClient* sharedClient;
     }
 }
 
-- (void)sendRequestToPath:(NSString*)path params:(NSDictionary*)params body:(NSString*)body headers:(NSDictionary*)headers method:(NSString*)method responseHandler:(LBServerResponseHandler)responseHandler
-{
+-(void)sendRequest:(LBServerRequest *)request{
 
-        LBLogInfo(@"sending %@ request to path:%@",method, path);
-        LBLogDebug(@"withParams:%@, andBody:%@, andHeaders:%@,handingResponse:%d", params, body, headers, (responseHandler != nil));
+        LBLogInfo(@"sending %@ request to path:%@",request.method, request.path);
+        LBLogDebug(@"withParams:%@, andBody:%@, andHeaders:%@,handingResponse:%d", request.params, request.requestBodyString, request.headers, (request.responseHandler != nil));
 
-    [self asyncRequestDataFromURL:[NSURL URLWithString:path]
-                           method:method
-                       parameters:params
-                       bodyString:body
-                      requestBody:[body dataUsingEncoding:_defaultTextEncoding]
-                          headers:headers
-         andServerResponseHandler:responseHandler];
+    [self asyncRequestDataForServerRequest:request];
 }
 
 - (BOOL)addWithRootCA:(NSString*)caDerFilePath strictHostNameCheck:(BOOL)check

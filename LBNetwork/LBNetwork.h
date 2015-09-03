@@ -27,6 +27,7 @@
 
 #import "Logging.h"
 #import "LBHTTPSClient.h"
+#import "LBServerRequest.h"
 #import "LBServerResponse.h"
 #import "HTTPStatusCodes.h"
 #import "LBURLConnectionProperties.h"

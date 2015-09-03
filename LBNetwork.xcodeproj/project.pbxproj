@@ -42,6 +42,8 @@
 		5A6594BF19A1DB4200F0A43E /* LBURLConnection.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A6594BE19A1DB4200F0A43E /* LBURLConnection.m */; };
 		5A6594C419A1F04D00F0A43E /* LBURLConnectionProperties.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A6594C319A1F04D00F0A43E /* LBURLConnectionProperties.m */; };
 		BF573F581B97289C001F5B6D /* LBDeserializer.h in Headers */ = {isa = PBXBuildFile; fileRef = BF573F571B97289C001F5B6D /* LBDeserializer.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		BFB4C1C61B95D68C00ED8763 /* LBServerRequest.h in Headers */ = {isa = PBXBuildFile; fileRef = BFB4C1C41B95D68C00ED8763 /* LBServerRequest.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		BFB4C1C71B95D68C00ED8763 /* LBServerRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = BFB4C1C51B95D68C00ED8763 /* LBServerRequest.m */; };
 		BFB6547A1B7A361200A96D6F /* LICENSE in CopyFiles */ = {isa = PBXBuildFile; fileRef = BFB654791B7A35F700A96D6F /* LICENSE */; };
 		BFB6547D1B7A364800A96D6F /* LICENSE in Headers */ = {isa = PBXBuildFile; fileRef = BFB654791B7A35F700A96D6F /* LICENSE */; settings = {ATTRIBUTES = (Public, ); }; };
 /* End PBXBuildFile section */
@@ -99,6 +101,8 @@
 		5A6594C219A1F04D00F0A43E /* LBURLConnectionProperties.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LBURLConnectionProperties.h; sourceTree = "<group>"; };
 		5A6594C319A1F04D00F0A43E /* LBURLConnectionProperties.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LBURLConnectionProperties.m; sourceTree = "<group>"; };
 		BF573F571B97289C001F5B6D /* LBDeserializer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LBDeserializer.h; sourceTree = "<group>"; };
+		BFB4C1C41B95D68C00ED8763 /* LBServerRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LBServerRequest.h; sourceTree = "<group>"; };
+		BFB4C1C51B95D68C00ED8763 /* LBServerRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LBServerRequest.m; sourceTree = "<group>"; };
 		BFB654791B7A35F700A96D6F /* LICENSE */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -172,6 +176,8 @@
 				5A6594C219A1F04D00F0A43E /* LBURLConnectionProperties.h */,
 				5A6594C319A1F04D00F0A43E /* LBURLConnectionProperties.m */,
 				BFB654791B7A35F700A96D6F /* LICENSE */,
+				BFB4C1C41B95D68C00ED8763 /* LBServerRequest.h */,
+				BFB4C1C51B95D68C00ED8763 /* LBServerRequest.m */,
 				BF573F571B97289C001F5B6D /* LBDeserializer.h */,
 			);
 			path = LBNetwork;
@@ -218,6 +224,7 @@
 				5A427D9319A3458A00BAB461 /* LBHTTPSClient.h in Headers */,
 				5A427D9419A3459000BAB461 /* Logging.h in Headers */,
 				BF573F581B97289C001F5B6D /* LBDeserializer.h in Headers */,
+				BFB4C1C61B95D68C00ED8763 /* LBServerRequest.h in Headers */,
 				5A427D9719A3459C00BAB461 /* LBURLConnectionProperties.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -342,6 +349,7 @@
 				5A6594BF19A1DB4200F0A43E /* LBURLConnection.m in Sources */,
 				5A6594B619A1D88800F0A43E /* LBHTTPSClient.m in Sources */,
 				5A6594BB19A1D9E300F0A43E /* LBServerResponse.m in Sources */,
+				BFB4C1C71B95D68C00ED8763 /* LBServerRequest.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
