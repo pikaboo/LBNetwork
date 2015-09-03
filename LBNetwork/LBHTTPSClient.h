@@ -51,7 +51,7 @@ extern NSString* const DataContentTypeVideo;
 
 @property (nonatomic,assign)NSStringEncoding defaultTextEncoding;
 @property (nonatomic,assign)NSURLRequestCachePolicy defaultCachePolicy;
-@property (nonatomic,assign)int defaultTimeoutInSeconds;
+
 @property (nonatomic,assign)BOOL doesControlIndicator;
 @property (nonatomic,assign)NSString *requestContentType;
 @property (nonatomic,strong)LBURLConnectionProperties *connectionProperties;

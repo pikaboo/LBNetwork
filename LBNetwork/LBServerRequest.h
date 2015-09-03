@@ -38,6 +38,7 @@ typedef void (^LBServerResponseHandler)(LBServerResponse *response);
 @property (nonatomic,assign)Class responseClass;
 @property (nonatomic,strong)LBServerResponseHandler responseHandler;
 @property (nonatomic,strong)NSMutableURLRequest *httpRequest;
+@property (nonatomic,assign)int requestTimeoutSeconds;
 
 +(instancetype)request;
 +(instancetype)getRequest;

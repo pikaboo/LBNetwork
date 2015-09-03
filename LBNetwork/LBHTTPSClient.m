@@ -68,7 +68,6 @@ static id sharedClient;
          */
         _defaultTextEncoding = NSUTF8StringEncoding;
         _defaultCachePolicy = NSURLRequestReloadIgnoringLocalCacheData;
-        _defaultTimeoutInSeconds = 60;
         
         /**
          * Whether the iPhone net indicator automatically shows when making requests
@@ -119,7 +118,7 @@ static id sharedClient;
     
     NSMutableURLRequest* httpRequest = [[NSMutableURLRequest alloc] initWithURL:serverRequest.requestURL
                                                                 cachePolicy:_defaultCachePolicy
-                                                            timeoutInterval:_defaultTimeoutInSeconds];
+                                                            timeoutInterval:serverRequest.requestTimeoutSeconds];
     [httpRequest setHTTPMethod:serverRequest.method];
     
     if ([_requestContentType isEqualToString:ContentTypeAutomatic]) {
@@ -187,7 +186,7 @@ static id sharedClient;
     NSMutableURLRequest *httpRequest = [[NSMutableURLRequest alloc] initWithURL:serverRequest.requestURL];
     [httpRequest setCachePolicy:_defaultCachePolicy];
     [httpRequest setHTTPShouldHandleCookies:NO];
-    [httpRequest setTimeoutInterval:_defaultTimeoutInSeconds];
+    [httpRequest setTimeoutInterval:serverRequest.requestTimeoutSeconds];
     [httpRequest setHTTPMethod:kMethodPOST];
     
     for (NSString* key in [serverRequest.headers allKeys]) {
@@ -235,14 +234,6 @@ static id sharedClient;
     [self startRequest:serverRequest];
 }
 
-//-(void)asyncImageUpload:(UIImage *)image toPath:(NSString *)path headers:(NSDictionary *)headers parameters:(NSDictionary *)parameters fileName:(NSString *)fileName responseHandler:(LBServerResponseHandler)serverResponseHandler{
-//    
-//    
-//    NSData *imageData = UIImageJPEGRepresentation(image, 1.0);
-//    //TODO
-////    [self asyncUploadData:imageData contentType:DataContentTypeImage toPath:path headers:headers parameters:parameters fileName:fileName responseHandler:serverResponseHandler];
-//    
-//}
 
 - (void)connection:(NSURLConnection*)connection didReceiveResponse:(NSURLResponse*)response
 {
@@ -268,11 +259,6 @@ static id sharedClient;
     LBLogDebug(@"statusCode:%@",@(con.rawResponse.statusCode));
     id<LBDeserializer> deserializer = [self.connectionProperties deserializerForContentType:[con responseContentType]];
     LBServerResponse* response = [LBServerResponse handleServerResponse:con deserializer:deserializer error:nil];
-    //[LBServerResponse handleServerResponse:[con rawResponse]
-                  //                                    responseString:responseString
-                    //                                           error:nil];
-    
-    
     if (con.request.responseHandler) {
         LBLogDebug(@"onMainThread? %lu",(long)[NSThread isMainThread]);
         dispatch_async(dispatch_get_main_queue(), ^{
@@ -475,7 +461,8 @@ static id sharedClient;
             });
            
         }
-        con.request.responseHandler = nil;
+        
+        [con.request cleanUp];
         [con.data setLength:0];
         con = nil;
         response.error = error;

@@ -24,12 +24,20 @@
 
 #import "LBNetwork.h"
 #import <UIKit/UIKit.h>
+#define kDefaultRequestTimeout 60
 @interface LBServerRequest ()
 
 @end
 
 @implementation LBServerRequest
 
+-(instancetype)init{
+    self = [super init];
+    if (self) {
+        self.requestTimeoutSeconds = kDefaultRequestTimeout;
+    }
+    return self;
+}
 +(instancetype)request{
     return [[[self class]alloc]init];
 }
