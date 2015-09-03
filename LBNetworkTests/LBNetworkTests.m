@@ -56,7 +56,6 @@
     XCTAssertNotNil(requestCopy.responseHandler,@"response handler  should not be null");
     XCTAssertNotNil(requestCopy.httpRequest);
     XCTAssertEqual(requestCopy.httpRequest.URL, request.httpRequest.URL,@"urls should be equal");
-    XCTAssertNil(requestCopy.converter,@"converter should not be null");
 }
 
 -(LBServerRequest *)createRequest{
