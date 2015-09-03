@@ -22,10 +22,10 @@
 //
 //  Created by Lena Brusilovski on 8/18/14.
 //
-
+#import "LBNetwork.h"
 #import <XCTest/XCTest.h>
 
-@interface LBNetworkTests : XCTestCase
+@interface LBNetworkTests : XCTestCase<NSURLConnectionDataDelegate>
 
 @end
 
@@ -43,9 +43,51 @@
     [super tearDown];
 }
 
-//- (void)testExample
-//{
-//    XCTFail(@"No implementation for \"%s\"", __PRETTY_FUNCTION__);
-//}
 
+
+-(void)testCopy{
+  
+    LBServerRequest *request = [self createRequest];
+    LBServerRequest *requestCopy = [request copy];
+    
+    NSString *orig =[NSString stringWithFormat:@"%p",request];
+    NSString *copy = [NSString stringWithFormat:@"%p",requestCopy];
+    XCTAssertNotEqual(orig,copy,@"they should not have the same memory address");
+    XCTAssertNotNil(requestCopy.responseHandler,@"response handler  should not be null");
+    XCTAssertNotNil(requestCopy.httpRequest);
+    XCTAssertEqual(requestCopy.httpRequest.URL, request.httpRequest.URL,@"urls should be equal");
+    XCTAssertNil(requestCopy.converter,@"converter should not be null");
+}
+
+-(LBServerRequest *)createRequest{
+    LBServerRequest *request = [[LBServerRequest alloc]init];
+    request.path = @"www.google.com";
+    request.httpRequest = [[NSMutableURLRequest alloc]initWithURL:request.requestURL cachePolicy:NSURLRequestReloadIgnoringCacheData timeoutInterval:10];
+    [request.httpRequest setHTTPMethod:kMethodGET];
+    XCTAssertNotNil(request.httpRequest.URL,@"url should not be null");
+    request.headers = @{@"LenaHeaderKEY":@"LenaHeaderValue"};
+    request.method = kMethodGET;
+    request.responseHandler = ^(LBServerResponse *response){
+        NSLog(@"stam");
+    };
+    request.requestBodyString = @"Lalala";
+    return request;
+}
+
+-(void)testCopyConnection{
+    LBServerRequest *request = [self createRequest];
+    LBURLConnection *connection = [[LBURLConnection alloc]initWithRequest:request delegate:self];
+    connection.retries = 5;
+    LBURLConnection *connectionCopy = [connection copy];
+    NSString *orig =[NSString stringWithFormat:@"%p",connection];
+    NSString *copy = [NSString stringWithFormat:@"%p",connectionCopy];
+    XCTAssertNotEqual(orig,copy,@"they should not have the same memory address");
+    
+}
+
+-(void)testCreateConnection{
+    LBServerRequest *request = [self createRequest];
+    LBURLConnection *con = [[LBURLConnection alloc]initWithRequest:request delegate:self];
+    XCTAssertNotNil(con.request,@"request should not be null");
+}
 @end
