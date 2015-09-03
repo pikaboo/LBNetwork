@@ -27,14 +27,19 @@
 @implementation LBServerResponse
 
 
-+ (instancetype)handleServerResponse:(NSHTTPURLResponse *)response
-                   responseString:(NSString *)responseString
++ (instancetype)handleServerResponse:(LBURLConnection *)connection
+                        deserializer:(id<LBDeserializer>)deserializer
                             error:(NSError *)error{
+    NSHTTPURLResponse *response = connection.rawResponse;
+    NSString* responseString = [[connection data] toString];
     LBServerResponse *res = [[self alloc] init];
     [res setHeaders:[response allHeaderFields]];
     [res setStatusCode:[response statusCode]];
     [res setRawResponse:responseString];
     [res setError:error];
+    if(deserializer){
+    res.output = [deserializer deserialize:[connection data] toClass:[connection.request responseClass]];
+    }
     return res;
 }
 
@@ -44,17 +49,17 @@
     rawResponse =
     [rawResponse stringByReplacingOccurrencesOfString:@"{\"d\":null}"
                                            withString:@""];
-    _rawResponse = rawResponse;
-    if ([_rawResponse length] == 0) {
+    _rawResponseData = [rawResponse dataUsingEncoding:NSUTF8StringEncoding];
+    _rawResponseString = rawResponse;
+    if ([rawResponse length] == 0) {
         return;
     }
-    _output =  _rawResponse; 
 }
 - (NSString *)description {
     return [NSString stringWithFormat:@"ServerResponse headers: "
             "%@\ncookie:%@\nrawResponse:%@"
             "\nstatusCode=%ld,output=%@",
-            _headers, _cookie, _rawResponse,
+            _headers, _cookie, _rawResponseString,
             (long)_statusCode, _output];
 }
 
@@ -62,4 +67,14 @@
     _headers = headers;
     _cookie = [_headers valueForKey:@"Set-Cookie"]; 
 }
+
+
+@end
+
+@implementation NSData (LBServerResponse)
+
+-(NSString *)toString{
+   return[[NSString alloc] initWithData:self encoding:NSUTF8StringEncoding];
+}
+
 @end

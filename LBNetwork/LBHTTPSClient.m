@@ -258,20 +258,20 @@ static LBHTTPSClient* sharedClient;
     LogDebug(@"Response recieved from url:%@", [[[connection originalRequest] URL] description]);
     }
     NSHTTPURLResponse* httpResponse = (NSHTTPURLResponse*)response;
-    LBURLConnectionWithResponseHandler* con = (LBURLConnectionWithResponseHandler*)connection;
+    LBURLConnection* con = (LBURLConnection*)connection;
     [con setRawResponse:httpResponse];
      con.data = [[NSMutableData alloc] initWithLength:0];
 }
 
 - (void)connection:(NSURLConnection*)connection didReceiveData:(NSData*)data
 {
-    LBURLConnectionWithResponseHandler* con = (LBURLConnectionWithResponseHandler*)connection;
+    LBURLConnection* con = (LBURLConnection*)connection;
     [[con data] appendData:data];
 }
 
 - (void)connectionDidFinishLoading:(NSURLConnection*)connection
 {
-    LBURLConnectionWithResponseHandler* con = (LBURLConnectionWithResponseHandler*)connection;
+    LBURLConnection* con = (LBURLConnection*)connection;
     NSData* data = [con data];
     NSString* responseString = [[NSString alloc] initWithData:data
                                                      encoding:NSUTF8StringEncoding];
@@ -457,25 +457,22 @@ static LBHTTPSClient* sharedClient;
     }
 
     if (shouldRetryRequest) {
-        LBURLConnectionWithResponseHandler* conrestart = [[LBURLConnectionWithResponseHandler alloc] initWithRequest:con.currentRequest
-                                                                                                            delegate:self];
-        conrestart.responseHandler = con.responseHandler;
-        conrestart.requestBody = [con.requestBody copy];
+        LBURLConnection* conrestart = [con copy];
         conrestart.retries = con.retries + 1;
         [conrestart start];
         [con cancel];
         
     } else {
         [con cancel];
-        NSData* data = [con data];
-        NSString* responseString = [[NSString alloc] initWithData:data
-                                                         encoding:NSUTF8StringEncoding];
-        LBServerResponse* response = [LBServerResponse handleServerResponse:[con rawResponse]
-                                                          responseString:responseString
-                                                                   error:error];
+        LBServerResponse* response = [LBServerResponse handleServerResponse:con
+                                                          deserializer:nil
+                                                                 error:error];
         response.currentRequestTryCount = con.retries;
-        if (con.responseHandler) {
-            con.responseHandler(response);
+        if (con.request.responseHandler) {
+            dispatch_async(dispatch_get_main_queue(), ^{
+                 con.request.responseHandler(response);
+            });
+           
         }
         con.responseHandler = nil;
         [con.data setLength:0];

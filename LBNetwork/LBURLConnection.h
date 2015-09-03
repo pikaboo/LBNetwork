@@ -16,34 +16,25 @@
  */
 
 //
-//  LBURLConnectionWithResponseHandler.m
+//  LBURLConnection.h
 //  LBNetwork
 //
 //  Created by Lena Brusilovski on 3/16/14.
-//
+
+@class LBServerRequest;
+
+@interface LBURLConnection : NSURLConnection <NSCopying>
 
 
-#import "LBNetwork.h"
+@property (nonatomic,copy) LBServerRequest *request;
+@property (nonatomic,strong) NSHTTPURLResponse *rawResponse;
+@property (nonatomic,strong) NSMutableData *data;
+@property (nonatomic,assign) NSInteger retries;
+@property (nonatomic,strong) NSMutableString *retryCount;
 
-@implementation LBURLConnectionWithResponseHandler
+-(instancetype)initWithRequest:(LBServerRequest *)request delegate:(id)delegate;
+-(instancetype)initWithRequest:(LBServerRequest *)request delegate:(id)delegate startImmediately:(BOOL)startImmediately;
 
+-(NSString *)responseContentType;
 
--(id)initWithRequest:(NSURLRequest *)request delegate:(id)delegate{
-    self = [super initWithRequest:request delegate:delegate startImmediately:NO];
-    if(self){
-        self.retries = 0;
-        self.retryCount = [[NSMutableString alloc]init];
-    }
-    return self;
-}
-
-
--(void)setResponseHandler:(LBServerResponseHandler)responseHandler{
-    _responseHandler = responseHandler;
-    if(!responseHandler){
-        if([LBHTTPSClient shouldLog]){
-        LogInfo(@"set nill response handler");
-        }
-    }
-}
 @end

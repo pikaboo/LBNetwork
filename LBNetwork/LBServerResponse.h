@@ -22,6 +22,7 @@
 //
 
 #import "LBNetwork.h"
+#import "LBDeserializer.h"
 @interface LBServerResponse : NSObject
 
 @property (nonatomic,strong)id output;
@@ -30,11 +31,17 @@
 @property (nonatomic,strong)NSDictionary *headers;
 @property (nonatomic,assign)NSString *cookie;
 @property (nonatomic,assign)NSError *error;
-@property (nonatomic,assign)NSString *rawResponse;
+@property (nonatomic,strong)NSData *rawResponseData;
+@property (nonatomic,strong)NSString *rawResponseString;
 @property (nonatomic,strong)NSURL *requestURL;
 @property (nonatomic,assign)NSInteger currentRequestTryCount;
 
-+(instancetype)handleServerResponse:(NSHTTPURLResponse *)response responseString:(NSString *)responseString error:(NSError *)error;
++ (instancetype)handleServerResponse:(LBURLConnection *)connection
+                        deserializer:(id<LBDeserializer>)deserializer
+                               error:(NSError *)error;
 
+@end
 
+@interface NSData (LBServerResponse)
+-(NSString *)toString;
 @end

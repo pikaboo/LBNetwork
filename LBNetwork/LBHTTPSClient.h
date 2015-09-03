@@ -23,7 +23,7 @@
 //
 
 
-#import "LBURLConnectionWithResponseHandler.h"
+#import "LBURLConnection.h"
 @class LBServerResponse;
 @class LBURLConnectionProperties;
 @class UIImage;

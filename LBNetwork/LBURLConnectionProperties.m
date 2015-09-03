@@ -24,8 +24,41 @@
 
 
 #import "LBNetwork.h"
+#define kDefaultDeserializer @"DefaultDeserializer"
+@interface LBDictionaryDeserializer :NSObject <LBDeserializer>
 
+
+@end
+
+@implementation LBDictionaryDeserializer
+
+-(id)deserialize:(NSData *)data toClass:(Class)clz{
+    id ret = nil;
+//    @try {
+        ret = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
+//    }
+//    @catch (NSException *exception) {
+//        LogError(@"couldnt convert to dictionary:%@",exception);
+//        @try {
+//            ret = (NSDictionary*) [NSKeyedUnarchiver unarchiveObjectWithData:data];
+//        }
+//        @catch (NSException *exception) {
+//            LogError(@"couldnt convert to dictionary:%@",exception);
+//        }
+//        @finally {
+//        }
+//    }
+//    @finally {
+//    }
+    
+    
+    return ret;
+}
+
+@end
 @interface LBURLConnectionProperties()<LBConnectionErrorHandler>
+
+@property (nonatomic,strong)NSMutableDictionary *registeredDeserializers;
 @end
 
 @implementation LBURLConnectionProperties
@@ -33,6 +66,9 @@
 -(id)init{
     self = [super init];
     if(self) {
+        self.registeredDeserializers = [[NSMutableDictionary alloc]init];
+        LBDictionaryDeserializer *dictionaryDeserializer = [[LBDictionaryDeserializer alloc]init];
+        [self registerDeserializer:dictionaryDeserializer forContentType:kDefaultDeserializer];
         self.errorHandler = self;
     }
     return self;
@@ -64,5 +100,20 @@
 }
 
 
+-(id<LBDeserializer>)registerDeserializer:(id<LBDeserializer>)deserializer forContentType:(NSString *)contentType{
+    id<LBDeserializer> prev = [self.registeredDeserializers objectForKey:contentType];
+    [self.registeredDeserializers setObject:deserializer forKey:contentType];
+    return prev;
+}
+
+-(id<LBDeserializer>)deserializerForContentType:(NSString *)contentType{
+    id<LBDeserializer> prev = [self.registeredDeserializers objectForKey:contentType];
+    if (!prev) {
+        return [self.registeredDeserializers objectForKey:kDefaultDeserializer];
+    }
+    return prev;
+}
 
 @end
+
+

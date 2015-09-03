@@ -22,7 +22,7 @@
 /* End PBXAggregateTarget section */
 
 /* Begin PBXBuildFile section */
-		5A427D9019A3457D00BAB461 /* LBURLConnectionWithResponseHandler.h in Headers */ = {isa = PBXBuildFile; fileRef = 5A6594BD19A1DB4200F0A43E /* LBURLConnectionWithResponseHandler.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		5A427D9019A3457D00BAB461 /* LBURLConnection.h in Headers */ = {isa = PBXBuildFile; fileRef = 5A6594BD19A1DB4200F0A43E /* LBURLConnection.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5A427D9119A3457F00BAB461 /* HTTPStatusCodes.h in Headers */ = {isa = PBXBuildFile; fileRef = 5A6594BC19A1DB3600F0A43E /* HTTPStatusCodes.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5A427D9219A3458200BAB461 /* LBServerResponse.h in Headers */ = {isa = PBXBuildFile; fileRef = 5A6594B919A1D9E300F0A43E /* LBServerResponse.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5A427D9319A3458A00BAB461 /* LBHTTPSClient.h in Headers */ = {isa = PBXBuildFile; fileRef = 5A6594B419A1D88800F0A43E /* LBHTTPSClient.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -39,8 +39,9 @@
 		5A6594B619A1D88800F0A43E /* LBHTTPSClient.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A6594B519A1D88800F0A43E /* LBHTTPSClient.m */; };
 		5A6594B819A1D94100F0A43E /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5A6594B719A1D94100F0A43E /* UIKit.framework */; };
 		5A6594BB19A1D9E300F0A43E /* LBServerResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A6594BA19A1D9E300F0A43E /* LBServerResponse.m */; };
-		5A6594BF19A1DB4200F0A43E /* LBURLConnectionWithResponseHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A6594BE19A1DB4200F0A43E /* LBURLConnectionWithResponseHandler.m */; };
+		5A6594BF19A1DB4200F0A43E /* LBURLConnection.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A6594BE19A1DB4200F0A43E /* LBURLConnection.m */; };
 		5A6594C419A1F04D00F0A43E /* LBURLConnectionProperties.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A6594C319A1F04D00F0A43E /* LBURLConnectionProperties.m */; };
+		BF573F581B97289C001F5B6D /* LBDeserializer.h in Headers */ = {isa = PBXBuildFile; fileRef = BF573F571B97289C001F5B6D /* LBDeserializer.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		BFB6547A1B7A361200A96D6F /* LICENSE in CopyFiles */ = {isa = PBXBuildFile; fileRef = BFB654791B7A35F700A96D6F /* LICENSE */; };
 		BFB6547D1B7A364800A96D6F /* LICENSE in Headers */ = {isa = PBXBuildFile; fileRef = BFB654791B7A35F700A96D6F /* LICENSE */; settings = {ATTRIBUTES = (Public, ); }; };
 /* End PBXBuildFile section */
@@ -92,11 +93,12 @@
 		5A6594B919A1D9E300F0A43E /* LBServerResponse.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LBServerResponse.h; sourceTree = "<group>"; };
 		5A6594BA19A1D9E300F0A43E /* LBServerResponse.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LBServerResponse.m; sourceTree = "<group>"; };
 		5A6594BC19A1DB3600F0A43E /* HTTPStatusCodes.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HTTPStatusCodes.h; sourceTree = "<group>"; };
-		5A6594BD19A1DB4200F0A43E /* LBURLConnectionWithResponseHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LBURLConnectionWithResponseHandler.h; sourceTree = "<group>"; };
-		5A6594BE19A1DB4200F0A43E /* LBURLConnectionWithResponseHandler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LBURLConnectionWithResponseHandler.m; sourceTree = "<group>"; };
+		5A6594BD19A1DB4200F0A43E /* LBURLConnection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LBURLConnection.h; sourceTree = "<group>"; };
+		5A6594BE19A1DB4200F0A43E /* LBURLConnection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LBURLConnection.m; sourceTree = "<group>"; };
 		5A6594C119A1DD7100F0A43E /* LBNetwork.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LBNetwork.h; sourceTree = "<group>"; };
 		5A6594C219A1F04D00F0A43E /* LBURLConnectionProperties.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LBURLConnectionProperties.h; sourceTree = "<group>"; };
 		5A6594C319A1F04D00F0A43E /* LBURLConnectionProperties.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LBURLConnectionProperties.m; sourceTree = "<group>"; };
+		BF573F571B97289C001F5B6D /* LBDeserializer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LBDeserializer.h; sourceTree = "<group>"; };
 		BFB654791B7A35F700A96D6F /* LICENSE */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -157,8 +159,8 @@
 		5A65948F19A1D75600F0A43E /* LBNetwork */ = {
 			isa = PBXGroup;
 			children = (
-				5A6594BD19A1DB4200F0A43E /* LBURLConnectionWithResponseHandler.h */,
-				5A6594BE19A1DB4200F0A43E /* LBURLConnectionWithResponseHandler.m */,
+				5A6594BD19A1DB4200F0A43E /* LBURLConnection.h */,
+				5A6594BE19A1DB4200F0A43E /* LBURLConnection.m */,
 				5A6594BC19A1DB3600F0A43E /* HTTPStatusCodes.h */,
 				5A6594B919A1D9E300F0A43E /* LBServerResponse.h */,
 				5A6594BA19A1D9E300F0A43E /* LBServerResponse.m */,
@@ -170,6 +172,7 @@
 				5A6594C219A1F04D00F0A43E /* LBURLConnectionProperties.h */,
 				5A6594C319A1F04D00F0A43E /* LBURLConnectionProperties.m */,
 				BFB654791B7A35F700A96D6F /* LICENSE */,
+				BF573F571B97289C001F5B6D /* LBDeserializer.h */,
 			);
 			path = LBNetwork;
 			sourceTree = "<group>";
@@ -209,11 +212,12 @@
 			files = (
 				5A427D9619A3459900BAB461 /* LBNetwork.h in Headers */,
 				BFB6547D1B7A364800A96D6F /* LICENSE in Headers */,
-				5A427D9019A3457D00BAB461 /* LBURLConnectionWithResponseHandler.h in Headers */,
+				5A427D9019A3457D00BAB461 /* LBURLConnection.h in Headers */,
 				5A427D9119A3457F00BAB461 /* HTTPStatusCodes.h in Headers */,
 				5A427D9219A3458200BAB461 /* LBServerResponse.h in Headers */,
 				5A427D9319A3458A00BAB461 /* LBHTTPSClient.h in Headers */,
 				5A427D9419A3459000BAB461 /* Logging.h in Headers */,
+				BF573F581B97289C001F5B6D /* LBDeserializer.h in Headers */,
 				5A427D9719A3459C00BAB461 /* LBURLConnectionProperties.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -335,7 +339,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				5A6594C419A1F04D00F0A43E /* LBURLConnectionProperties.m in Sources */,
-				5A6594BF19A1DB4200F0A43E /* LBURLConnectionWithResponseHandler.m in Sources */,
+				5A6594BF19A1DB4200F0A43E /* LBURLConnection.m in Sources */,
 				5A6594B619A1D88800F0A43E /* LBHTTPSClient.m in Sources */,
 				5A6594BB19A1D9E300F0A43E /* LBServerResponse.m in Sources */,
 			);

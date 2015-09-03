@@ -14,26 +14,17 @@
  * IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
  * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
-
 //
-//  LBURLConnectionWithResponseHandler.h
+//  LBDeserializer.h
 //  LBNetwork
 //
-//  Created by Lena Brusilovski on 3/16/14.
+//  Created by Lena Brusilovski on 09/2/15.
+//  Copyright (c) 2015 LenaBrusilovski. All rights reserved.
+//
 
-@class LBServerResponse;
+#import <Foundation/Foundation.h>
 
+@protocol LBDeserializer <NSObject>
 
-@interface LBURLConnectionWithResponseHandler : NSURLConnection
-typedef void (^LBServerResponseHandler)(LBServerResponse *response);
-
-@property (nonatomic,strong) LBServerResponseHandler responseHandler;
-@property (nonatomic,strong) NSHTTPURLResponse *rawResponse;
-@property (nonatomic,strong) NSMutableData *data;
-@property (nonatomic,assign) NSInteger retries;
-@property (nonatomic,strong) NSMutableString *retryCount;
-@property (nonatomic,strong) NSString *requestBody;
-
-
-
+-(id)deserialize:(NSData *)data toClass:(Class)clz;
 @end

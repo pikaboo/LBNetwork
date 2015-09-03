@@ -29,9 +29,11 @@
 #import "LBHTTPSClient.h"
 #import "LBServerResponse.h"
 #import "HTTPStatusCodes.h"
-#import "LBURLConnectionWithResponseHandler.h"
-#import "LBServerResponse.h"
 #import "LBURLConnectionProperties.h"
+#import "LBURLConnection.h"
+
+#import "LBServerResponse.h"
+
 #import <UIKit/UIKit.h>
 
 #endif
