@@ -7,34 +7,46 @@
 	<key>IDESourceControlProjectIdentifier</key>
 	<string>A077BF0F-A2DA-4834-8217-4E8965C64807</string>
 	<key>IDESourceControlProjectName</key>
-	<string>LBNetwork</string>
+	<string>project</string>
 	<key>IDESourceControlProjectOriginsDictionary</key>
 	<dict>
-		<key>1C805B3912D0C696C680FBC5113ACBCA44C8AE5E</key>
-		<string>https://bitbucket.org/LenaBru/privateframeworks.git</string>
+		<key>7FB3AF7E252A7B3A38DD7CB104AEB2D86ACC5DDD</key>
+		<string>https://github.com/pikaboo/LBNetwork.git</string>
+		<key>92D11D05AA3B1E78C425BFD22B84F721709C653B</key>
+		<string>https://bitbucket.org/mypermissions/mp4-ios.git</string>
 	</dict>
 	<key>IDESourceControlProjectPath</key>
-	<string>LBNetwork/LBNetwork.xcodeproj</string>
+	<string>LBNetwork.xcodeproj/project.xcworkspace</string>
 	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
 	<dict>
-		<key>1C805B3912D0C696C680FBC5113ACBCA44C8AE5E</key>
+		<key>7FB3AF7E252A7B3A38DD7CB104AEB2D86ACC5DDD</key>
+		<string>../..</string>
+		<key>92D11D05AA3B1E78C425BFD22B84F721709C653B</key>
 		<string>../../..</string>
 	</dict>
 	<key>IDESourceControlProjectURL</key>
-	<string>https://bitbucket.org/LenaBru/privateframeworks.git</string>
+	<string>https://github.com/pikaboo/LBNetwork.git</string>
 	<key>IDESourceControlProjectVersion</key>
 	<integer>111</integer>
 	<key>IDESourceControlProjectWCCIdentifier</key>
-	<string>1C805B3912D0C696C680FBC5113ACBCA44C8AE5E</string>
+	<string>7FB3AF7E252A7B3A38DD7CB104AEB2D86ACC5DDD</string>
 	<key>IDESourceControlProjectWCConfigurations</key>
 	<array>
 		<dict>
 			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
 			<string>public.vcs.git</string>
 			<key>IDESourceControlWCCIdentifierKey</key>
-			<string>1C805B3912D0C696C680FBC5113ACBCA44C8AE5E</string>
+			<string>92D11D05AA3B1E78C425BFD22B84F721709C653B</string>
 			<key>IDESourceControlWCCName</key>
-			<string>Frameworks</string>
+			<string></string>
+		</dict>
+		<dict>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.git</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>7FB3AF7E252A7B3A38DD7CB104AEB2D86ACC5DDD</string>
+			<key>IDESourceControlWCCName</key>
+			<string>LBNetwork</string>
 		</dict>
 	</array>
 </dict>
