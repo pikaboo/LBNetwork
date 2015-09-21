@@ -53,7 +53,8 @@
     NSString *orig =[NSString stringWithFormat:@"%p",request];
     NSString *copy = [NSString stringWithFormat:@"%p",requestCopy];
     XCTAssertNotEqual(orig,copy,@"they should not have the same memory address");
-    XCTAssertNotNil(requestCopy.responseHandler,@"response handler  should not be null");
+    XCTAssertNotNil(requestCopy.successResponseHandler,@"success response handler  should not be null");
+    XCTAssertNotNil(requestCopy.failResponseHandler,@"fail response handler  should not be null");
     XCTAssertNotNil(requestCopy.httpRequest);
     XCTAssertEqual(requestCopy.httpRequest.URL, request.httpRequest.URL,@"urls should be equal");
 }
@@ -66,8 +67,11 @@
     XCTAssertNotNil(request.httpRequest.URL,@"url should not be null");
     request.headers = @{@"LenaHeaderKEY":@"LenaHeaderValue"};
     request.method = kMethodGET;
-    request.responseHandler = ^(LBServerResponse *response){
+    request.successResponseHandler = ^(LBServerResponse *response){
         NSLog(@"stam");
+    };
+    request.failResponseHandler = ^(NSError *error){
+        NSLog(@"error:%@",error);
     };
     request.requestBodyString = @"Lalala";
     return request;

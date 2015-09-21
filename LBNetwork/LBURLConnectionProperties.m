@@ -56,7 +56,7 @@
 }
 
 @end
-@interface LBURLConnectionProperties()<LBConnectionErrorHandler>
+@interface LBURLConnectionProperties()<LBConnectionErrorHandler,LBResponseTypeResolver>
 
 @property (nonatomic,strong)NSMutableDictionary *registeredDeserializers;
 @end
@@ -70,6 +70,7 @@
         LBDictionaryDeserializer *dictionaryDeserializer = [[LBDictionaryDeserializer alloc]init];
         [self registerDeserializer:dictionaryDeserializer forContentType:kDefaultDeserializer];
         self.errorHandler = self;
+        self.responseTypeResolver = self;
     }
     return self;
 }
@@ -112,6 +113,13 @@
         return [self.registeredDeserializers objectForKey:kDefaultDeserializer];
     }
     return prev;
+}
+
+-(LBResponseType)responseType:(LBServerResponse *)response{
+    if (response.statusCode>=kHTTPStatusCodeOK && response.statusCode<kHTTPStatusCodeMultipleChoices) {
+        return LBResonseTypeSuccess;
+    }
+    return LBResponseTypeFail;
 }
 
 @end

@@ -23,6 +23,7 @@
 
 @class LBServerRequest;
 
+#import "LBServerRequest.h"
 @interface LBURLConnection : NSURLConnection <NSCopying>
 
 

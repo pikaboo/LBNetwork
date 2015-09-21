@@ -25,7 +25,16 @@
 #import <Foundation/Foundation.h>
 #import "LBDeserializer.h"
 
+@protocol LBResponseTypeResolver<NSObject>
 
+typedef enum{
+    LBResonseTypeSuccess,
+    LBResponseTypeFail,
+}LBResponseType;
+
+-(LBResponseType)responseType:(LBServerResponse *)response;
+
+@end
 @protocol LBConnectionErrorHandler <NSObject>
 
 -(BOOL)shouldDisplayActivityIndicatorForRequest:(NSURLRequest*)request;
@@ -51,6 +60,7 @@ typedef enum{
 @property (nonatomic,assign)NSInteger maxRetryCount;
 @property (nonatomic,assign)LogLevel logLevel;
 @property (nonatomic,assign)id<LBConnectionErrorHandler>errorHandler;
+@property (nonatomic,assign)id<LBResponseTypeResolver>responseTypeResolver;
 -(id<LBDeserializer>)registerDeserializer:(id<LBDeserializer>)deserializer forContentType:(NSString *)contentType;
 -(id<LBDeserializer>)deserializerForContentType:(NSString *)contentType;
 @end

@@ -39,7 +39,7 @@
 		self.retries = 0;
 		self.retryCount = [[NSMutableString alloc]init];
 
-		if(!request.responseHandler){
+		if(!request.successResponseHandler){
 			if([LBHTTPSClient shouldLog]){
 				LogInfo(@"set nill response handler");
 			}

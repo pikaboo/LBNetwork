@@ -26,7 +26,8 @@
 @class UIImage;
 @class LBServerResponse;
 @interface LBServerRequest : NSObject <NSCopying>
-typedef void (^LBServerResponseHandler)(LBServerResponse *response);
+typedef void (^LBServerSuccessResponseHandler)(id output);
+typedef void (^LBServerFailResponseHandler)(NSError *error);
 
 @property (nonatomic,strong)NSDictionary *headers;
 @property (nonatomic,strong)NSDictionary *params;
@@ -36,7 +37,8 @@ typedef void (^LBServerResponseHandler)(LBServerResponse *response);
 @property (nonatomic,strong)NSString *method;
 @property (nonatomic,strong)NSString *dataContentType;
 @property (nonatomic,assign)Class responseClass;
-@property (nonatomic,strong)LBServerResponseHandler responseHandler;
+@property (nonatomic,strong)LBServerSuccessResponseHandler successResponseHandler;
+@property (nonatomic,strong)LBServerFailResponseHandler failResponseHandler;
 @property (nonatomic,strong)NSMutableURLRequest *httpRequest;
 @property (nonatomic,assign)int requestTimeoutSeconds;
 

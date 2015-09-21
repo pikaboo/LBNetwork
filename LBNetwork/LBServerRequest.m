@@ -71,7 +71,8 @@
 -(instancetype)copy{
     LBServerRequest *copy = [[LBServerRequest alloc]init];
     copy.path = [self.path copy];
-    copy.responseHandler = [self.responseHandler copy];
+    copy.successResponseHandler = [self.successResponseHandler copy];
+    copy.failResponseHandler = [self.failResponseHandler copy];
     copy.headers = [self.headers copy];
     copy.requestBodyString = [self.requestBodyString copy];
     copy.requestBodyData = [self.requestBodyData copy];
@@ -87,6 +88,7 @@
 }
 
 -(void)cleanUp{
-    self.responseHandler = nil;
+    self.successResponseHandler = nil;
+    self.failResponseHandler = nil;
 }
 @end

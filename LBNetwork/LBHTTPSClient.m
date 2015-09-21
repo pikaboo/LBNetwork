@@ -259,11 +259,33 @@ static id sharedClient;
     LBLogDebug(@"statusCode:%@",@(con.rawResponse.statusCode));
     id<LBDeserializer> deserializer = [self.connectionProperties deserializerForContentType:[con responseContentType]];
     LBServerResponse* response = [LBServerResponse handleServerResponse:con deserializer:deserializer error:nil];
-    if (con.request.responseHandler) {
-        LBLogDebug(@"onMainThread? %lu",(long)[NSThread isMainThread]);
-        dispatch_async(dispatch_get_main_queue(), ^{
-            con.request.responseHandler(response);
-        });
+    LBResponseType type = LBResonseTypeSuccess;
+    if ([self.connectionProperties.responseTypeResolver respondsToSelector:@selector(responseType:)]) {
+        type = [self.connectionProperties.responseTypeResolver responseType:response];
+    }
+    switch (type) {
+   
+        case LBResponseTypeFail:
+        {
+            if (con.request.failResponseHandler) {
+                LBLogDebug(@"onMainThread? %lu",(long)[NSThread isMainThread]);
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    con.request.failResponseHandler(response.error);
+                });
+            }
+        }
+        case LBResonseTypeSuccess:
+        {  if (con.request.successResponseHandler) {
+            LBLogDebug(@"onMainThread? %lu",(long)[NSThread isMainThread]);
+            dispatch_async(dispatch_get_main_queue(), ^{
+                con.request.successResponseHandler(response.output);
+            });
+        }
+            
+        }
+            break;
+        default:
+            break;
     }
     [self handleErrorIfNeeded:response];
     
@@ -455,9 +477,9 @@ static id sharedClient;
                                                           deserializer:nil
                                                                  error:error];
         response.currentRequestTryCount = con.retries;
-        if (con.request.responseHandler) {
+        if (con.request.failResponseHandler) {
             dispatch_async(dispatch_get_main_queue(), ^{
-                 con.request.responseHandler(response);
+                 con.request.failResponseHandler(response.error);
             });
            
         }
@@ -503,7 +525,7 @@ static id sharedClient;
 -(void)sendRequest:(LBServerRequest *)request{
 
         LBLogInfo(@"sending %@ request to path:%@",request.method, request.path);
-        LBLogDebug(@"withParams:%@, andBody:%@, andHeaders:%@,handingResponse:%d", request.params, request.requestBodyString, request.headers, (request.responseHandler != nil));
+        LBLogDebug(@"withParams:%@, andBody:%@, andHeaders:%@,handingResponse:%d", request.params, request.requestBodyString, request.headers, (request.successResponseHandler != nil));
 
     [self asyncRequestDataForServerRequest:request];
 }
