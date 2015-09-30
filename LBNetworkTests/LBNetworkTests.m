@@ -67,6 +67,7 @@
     XCTAssertNotNil(request.httpRequest.URL,@"url should not be null");
     request.headers = @{@"LenaHeaderKEY":@"LenaHeaderValue"};
     request.method = kMethodGET;
+    request.responseClass = [NSString class];
     request.successResponseHandler = ^(LBServerResponse *response){
         NSLog(@"stam");
     };
@@ -75,6 +76,19 @@
     };
     request.requestBodyString = @"Lalala";
     return request;
+}
+
+-(void)testCopyRequest{
+    LBServerRequest *request = [self createRequest];
+    
+    LBServerRequest *copy = request.copy;
+    
+    XCTAssertEqual(request.responseClass, copy.responseClass, @"response class should not be nil");
+    XCTAssertEqual(request.path, copy.path, @"path should not be nil");
+    XCTAssertNotNil(copy.successResponseHandler, @"successResponseHandler should not be nil");
+    XCTAssertNotNil(copy.failResponseHandler, @"failResponseHandler should not be nil");
+    XCTAssertEqual(request.method, copy.method, @"method should not be nil");
+    XCTAssertNotNil(copy.httpRequest, @"httpRequest should not be nil");
 }
 
 -(void)testCopyConnection{

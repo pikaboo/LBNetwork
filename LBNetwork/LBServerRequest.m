@@ -74,9 +74,11 @@
     copy.successResponseHandler = [self.successResponseHandler copy];
     copy.failResponseHandler = [self.failResponseHandler copy];
     copy.headers = [self.headers copy];
+    copy.method = self.method.copy;
     copy.requestBodyString = [self.requestBodyString copy];
     copy.requestBodyData = [self.requestBodyData copy];
     copy.httpRequest = [self.httpRequest mutableCopy];
+    copy.responseClass = self.responseClass;
     return copy;
 }
 
