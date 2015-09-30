@@ -30,7 +30,7 @@ NSString* const kMethodPUT = @"PUT";
 NSString* const kMethodDELETE = @"DELETE";
 
 NSString* const ContentTypeAutomatic = @"jsonmodel/automatic";
-NSString* const ContentTypeJSON = @"application/json;charset=UTF-8";
+NSString* const ContentTypeJSON = @"application/json";
 NSString* const ContentTypeWWWEncoded = @"application/x-www-form-urlencoded";
 
 NSString* const DataContentTypeImage = @"image/jpeg";
