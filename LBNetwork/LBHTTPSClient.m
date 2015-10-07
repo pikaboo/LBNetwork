@@ -271,6 +271,7 @@ static id sharedClient;
                 LBLogDebug(@"onMainThread? %lu",(long)[NSThread isMainThread]);
                 dispatch_async(dispatch_get_main_queue(), ^{
                     con.request.failResponseHandler(response.error);
+                    [self cleanUp:con];
                 });
             }
         }
@@ -279,6 +280,7 @@ static id sharedClient;
             LBLogDebug(@"onMainThread? %lu",(long)[NSThread isMainThread]);
             dispatch_async(dispatch_get_main_queue(), ^{
                 con.request.successResponseHandler(response.output);
+                [self cleanUp:con];
             });
         }
             
@@ -288,14 +290,18 @@ static id sharedClient;
             break;
     }
     [self handleErrorIfNeeded:response];
+   }
+
+
+-(void)cleanUp:(LBURLConnection *)con{
     
     [con cancel];
     [con.request cleanUp];
     [con.data setLength:0];
     con = nil;
     [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
-}
 
+}
 - (NSCachedURLResponse *)connection:(NSURLConnection *)connection willCacheResponse:(NSCachedURLResponse *)cachedResponse {
     return nil;
 }
