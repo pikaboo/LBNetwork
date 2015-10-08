@@ -33,26 +33,19 @@
 @implementation LBDictionaryDeserializer
 
 -(id)deserialize:(NSData *)data toClass:(Class)clz{
-    id ret = nil;
-//    @try {
-        ret = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
-//    }
-//    @catch (NSException *exception) {
-//        LogError(@"couldnt convert to dictionary:%@",exception);
-//        @try {
-//            ret = (NSDictionary*) [NSKeyedUnarchiver unarchiveObjectWithData:data];
-//        }
-//        @catch (NSException *exception) {
-//            LogError(@"couldnt convert to dictionary:%@",exception);
-//        }
-//        @finally {
-//        }
-//    }
-//    @finally {
-//    }
-    
-    
+    id  ret = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
     return ret;
+}
+
+@end
+
+@interface LBJavaScriptDeserializer : NSObject <LBDeserializer>
+
+@end
+
+@implementation LBJavaScriptDeserializer
+-(id)deserialize:(NSData *)data toClass:(Class)clz{
+    return [data toString];
 }
 
 @end
@@ -68,7 +61,9 @@
     if(self) {
         self.registeredDeserializers = [[NSMutableDictionary alloc]init];
         LBDictionaryDeserializer *dictionaryDeserializer = [[LBDictionaryDeserializer alloc]init];
+        LBJavaScriptDeserializer *javaScriptDeserializer = [[LBJavaScriptDeserializer alloc]init];
         [self registerDeserializer:dictionaryDeserializer forContentType:kDefaultDeserializer];
+        [self registerDeserializer:javaScriptDeserializer forContentType:ContentTypeApplicationJavaScript];
         self.errorHandler = self;
         self.responseTypeResolver = self;
     }

@@ -32,6 +32,7 @@ NSString* const kMethodDELETE = @"DELETE";
 NSString* const ContentTypeAutomatic = @"jsonmodel/automatic";
 NSString* const ContentTypeJSON = @"application/json";
 NSString* const ContentTypeWWWEncoded = @"application/x-www-form-urlencoded";
+NSString* const ContentTypeApplicationJavaScript = @"application/javascript";
 
 NSString* const DataContentTypeImage = @"image/jpeg";
 NSString* const DataContentTypeVideo = @"application/octet-stream";
@@ -269,19 +270,19 @@ static id sharedClient;
         {
             if (con.request.failResponseHandler) {
                 LBLogDebug(@"onMainThread? %lu",(long)[NSThread isMainThread]);
-                dispatch_async(dispatch_get_main_queue(), ^{
+//                dispatch_async(dispatch_get_main_queue(), ^{
                     con.request.failResponseHandler(response.error);
                     [self cleanUp:con];
-                });
+//                });
             }
         }
         case LBResonseTypeSuccess:
         {  if (con.request.successResponseHandler) {
             LBLogDebug(@"onMainThread? %lu",(long)[NSThread isMainThread]);
-            dispatch_async(dispatch_get_main_queue(), ^{
+//            dispatch_async(dispatch_get_main_queue(), ^{
                 con.request.successResponseHandler(response.output);
                 [self cleanUp:con];
-            });
+//            });
         }
             
         }

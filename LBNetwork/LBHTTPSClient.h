@@ -41,6 +41,7 @@ extern NSString* const kMethodDELETE;
 extern NSString* const ContentTypeAutomatic;
 extern NSString* const ContentTypeJSON;
 extern NSString* const ContentTypeWWWEncoded;
+extern NSString* const ContentTypeApplicationJavaScript;
 
 extern NSString* const DataContentTypeImage;
 extern NSString* const DataContentTypeVideo;

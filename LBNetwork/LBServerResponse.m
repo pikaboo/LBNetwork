@@ -38,7 +38,7 @@
     [res setRawResponse:responseString];
     [res setError:error];
     if(deserializer){
-    res.output = [deserializer deserialize:[connection data] toClass:[connection.request responseClass]];
+        res.output = [deserializer deserialize:[connection data] toClass:[connection.request responseClass]];
     }
     return res;
 }
