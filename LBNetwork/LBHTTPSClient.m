@@ -255,8 +255,12 @@ static id sharedClient;
 {
     LBURLConnection* con = (LBURLConnection*)connection;
     NSData* data = [con data];
-    
-    LBLogDebug(@"Data recieved:%@", [data toString]);
+    NSString *stringData = [data toString];
+    if (stringData.length >1000) {
+        LBLogDebug(@"Data received:%@",@(stringData.length));
+    }else {
+    LBLogDebug(@"Data recieved:%@", stringData);
+    }
     LBLogDebug(@"statusCode:%@",@(con.rawResponse.statusCode));
     id<LBDeserializer> deserializer = [self.connectionProperties deserializerForContentType:[con responseContentType]];
     LBServerResponse* response = [LBServerResponse handleServerResponse:con deserializer:deserializer error:nil];

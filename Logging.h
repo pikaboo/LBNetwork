@@ -160,7 +160,7 @@
 
 // Logging format
 #define LOG_FORMAT_NO_LOCATION(fmt, lvl, ...) NSLog((@"[%@] " fmt), lvl, ##__VA_ARGS__)
-#define LOG_FORMAT_WITH_LOCATION(fmt, lvl, ...) NSLog((@"%@,%s:%d\n" fmt), lvl,__PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__)
+#define LOG_FORMAT_WITH_LOCATION(fmt, lvl, ...) NSLog((@"%@,%s:%d   " fmt), lvl,__PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__)
 
 //#if defined(LOGGING_INCLUDE_CODE_LOCATION)&& LOGGING_INCLUDE_CODE_LOCATION && defined(LOGGING_COLOR) && LOGGING_COLOR
 //    #define LOG_FORMAT(fmt, lvl, ...) LOG_FORMAT_WITH_LOCATION((fmt XCODE_COLORS_RESET), lvl, ##__VA_ARGS__)
