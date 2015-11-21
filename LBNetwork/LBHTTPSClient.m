@@ -35,7 +35,7 @@ NSString* const ContentTypeWWWEncoded = @"application/x-www-form-urlencoded";
 NSString* const ContentTypeApplicationJavaScript = @"application/javascript";
 
 NSString* const DataContentTypeImage = @"image/jpeg";
-NSString* const DataContentTypeVideo = @"application/octet-stream";
+NSString* const DataContentTypeFile = @"application/octet-stream";
 
 #define LBShowLog [LBHTTPSClient shouldLog]
 #define LBLogDebug(fmt,...) if (LBShowLog) LogDebug(fmt,##__VA_ARGS__)
@@ -479,6 +479,7 @@ static id sharedClient;
     if (shouldRetryRequest) {
         LBURLConnection* conrestart = [con copy];
         conrestart.retries = con.retries + 1;
+        [conrestart setDelegateQueue:self.connectionQueue];
         [conrestart start];
         [con cancel];
         
@@ -489,9 +490,9 @@ static id sharedClient;
                                                                  error:error];
         response.currentRequestTryCount = con.retries;
         if (con.request.failResponseHandler) {
-            dispatch_async(dispatch_get_main_queue(), ^{
+//            dispatch_async(dispatch_get_main_queue(), ^{
                  con.request.failResponseHandler(response.error);
-            });
+//            });
            
         }
         

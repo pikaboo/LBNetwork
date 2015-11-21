@@ -57,6 +57,7 @@
 +(instancetype)uploadRequest:(NSData *)data{
     LBServerRequest *request = [self postRequest];
     request.requestBodyData = data;
+    request.dataContentType = DataContentTypeFile;
     return request;
 }
 

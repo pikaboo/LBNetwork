@@ -44,7 +44,7 @@ extern NSString* const ContentTypeWWWEncoded;
 extern NSString* const ContentTypeApplicationJavaScript;
 
 extern NSString* const DataContentTypeImage;
-extern NSString* const DataContentTypeVideo;
+extern NSString* const DataContentTypeFile;
 
 @interface LBHTTPSClient:NSObject<NSURLConnectionDelegate>
 
