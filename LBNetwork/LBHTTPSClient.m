@@ -183,6 +183,27 @@ static id sharedClient;
     LBLogDebug(@"started connection");
 }
 
+-(void)asyncUploadRequestRawData:(LBServerRequest *)serverRequest{
+    NSMutableURLRequest *httpRequest = [[NSMutableURLRequest alloc] initWithURL:serverRequest.requestURL];
+    [httpRequest setCachePolicy:_defaultCachePolicy];
+    [httpRequest setHTTPShouldHandleCookies:NO];
+    [httpRequest setTimeoutInterval:serverRequest.requestTimeoutSeconds];
+    [httpRequest setHTTPMethod:kMethodPOST];
+    
+    for (NSString* key in [serverRequest.headers allKeys]) {
+        [httpRequest setValue:serverRequest.headers[key] forHTTPHeaderField:key];
+    }
+    
+    [httpRequest setHTTPBody:serverRequest.requestBodyData];
+    
+    // set the content-length
+    NSString *postLength = [NSString stringWithFormat:@"%lu", (unsigned long)[serverRequest.requestBodyData length]];
+    [httpRequest setValue:postLength forHTTPHeaderField:@"Content-Length"];
+    
+    serverRequest.httpRequest = httpRequest;
+    [self startRequest:serverRequest];
+}
+
 -(void)asyncUploadRequestData:(LBServerRequest *)serverRequest fileName:(NSString *)fileName {
     NSMutableURLRequest *httpRequest = [[NSMutableURLRequest alloc] initWithURL:serverRequest.requestURL];
     [httpRequest setCachePolicy:_defaultCachePolicy];

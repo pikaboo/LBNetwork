@@ -62,6 +62,6 @@ extern NSString* const DataContentTypeFile;
 -(void)sendRequest:(LBServerRequest *)request;
 -(void)asyncUploadRequestData:(LBServerRequest *)serverRequest fileName:(NSString *)fileName;
 -(BOOL)addWithRootCA:(NSString *)caDerFilePath strictHostNameCheck:(BOOL)check;
-
+-(void)asyncUploadRequestRawData:(LBServerRequest *)serverRequest;
 +(BOOL)shouldLog;
 @end
