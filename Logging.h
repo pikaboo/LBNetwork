@@ -138,7 +138,7 @@
 #	define LOGGING_LEVEL_DEBUG		1
 #endif
 #ifndef LOGGING_COLOR
-#define LOGGING_COLOR               1
+#define LOGGING_COLOR               0
 #endif
 /**
  * Set this switch to indicate whether or not to include class, method and line information
