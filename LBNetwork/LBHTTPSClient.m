@@ -416,6 +416,9 @@ static id sharedClient;
         if (err == errSecSuccess)
             err = SecTrustEvaluate(trust, &result);
         
+        [challenge.sender useCredential:[NSURLCredential credentialForTrust:trust]
+             forAuthenticationChallenge:challenge];
+        /*
         if (err == errSecSuccess) {
             switch (result) {
                 case kSecTrustResultProceed:
@@ -465,7 +468,7 @@ static id sharedClient;
         //        CFRelease(str);
         
         [[challenge sender] cancelAuthenticationChallenge:challenge];
-        
+        */
     done:
         if (!checkHostname)
             CFRelease(trust);
