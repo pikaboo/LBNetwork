@@ -482,7 +482,7 @@ static id sharedClient;
     // [challenge.sender continueWithoutCredentialForAuthenticationChallenge:challenge];
     
     LBLogDebug(@"Not something we can handle - so we're canceling it.");
-    [challenge.sender cancelAuthenticationChallenge:challenge];
+  //  [challenge.sender cancelAuthenticationChallenge:challenge];
 }
 
 - (void)connection:(NSURLConnection*)connection didFailWithError:(NSError*)error
@@ -568,7 +568,7 @@ static id sharedClient;
 
 - (BOOL)addWithRootCA:(NSString*)caDerFilePath strictHostNameCheck:(BOOL)check
 {
-    
+    checkHostname = check;
     NSData* derCA = [NSData dataWithContentsOfFile:caDerFilePath];
     if (!derCA) {
         return NO;
@@ -586,7 +586,7 @@ static id sharedClient;
 - (BOOL)initWithRootCAs:(NSArray*)anArrayOfSecCertificateRef strictHostNameCheck:(BOOL)check
 {
     
-    checkHostname = check;
+    
     caChainArrayRef = CFBridgingRetain(anArrayOfSecCertificateRef);
     
     return YES;
