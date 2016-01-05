@@ -469,7 +469,7 @@ static id sharedClient;
         
         [[challenge sender] cancelAuthenticationChallenge:challenge];
         */
-    done:
+     done:
         if (!checkHostname)
             CFRelease(trust);
         return;
