@@ -56,7 +56,7 @@ extern NSString* const DataContentTypeFile;
 @property (nonatomic,assign)BOOL doesControlIndicator;
 @property (nonatomic,assign)NSString *requestContentType;
 @property (nonatomic,strong)LBURLConnectionProperties *connectionProperties;
-
+@property (nonatomic, assign)BOOL certificateFromAuthority;
 
 +(instancetype)sharedClient;
 -(void)sendRequest:(LBServerRequest *)request;
