@@ -83,6 +83,7 @@ static id sharedClient;
         self.connectionProperties.maxRetryCount = 3;
         self.connectionProperties.logLevel = LogLevelDebug;
         self.connectionQueue = [[NSOperationQueue alloc] init];
+        self.connectionQueue.name = @"LBNetworkQueue";
     }
     return self;
 }
