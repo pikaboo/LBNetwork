@@ -80,7 +80,7 @@
 }
 
 -(BOOL)shouldDisplayErrorForResponse:(LBServerResponse *)response{
-    return  response.statusCode>kHTTPStatusCodeBadRequest;
+    return  response.statusCode>kHTTPStatusCodeBadRequest && [[UIApplication sharedApplication]applicationState] == UIApplicationStateActive;
 }
 
 -(NSString *)messageForErrorForResponse:(LBServerResponse *)response{
