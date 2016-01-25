@@ -74,6 +74,7 @@
     copy.path = [self.path copy];
     copy.successResponseHandler = [self.successResponseHandler copy];
     copy.failResponseHandler = [self.failResponseHandler copy];
+    copy.responseHandler = [self.responseHandler copy];
     copy.headers = [self.headers copy];
     copy.method = self.method.copy;
     copy.requestBodyString = [self.requestBodyString copy];
@@ -93,5 +94,6 @@
 -(void)cleanUp{
     self.successResponseHandler = nil;
     self.failResponseHandler = nil;
+    self.responseHandler = nil;
 }
 @end

@@ -65,7 +65,10 @@
 
 - (void)setHeaders:(NSDictionary *)headers {
     _headers = headers;
-    _cookie = [_headers valueForKey:@"Set-Cookie"]; 
+    _cookie = [_headers valueForKey:@"Set-Cookie"];
+    if(!_cookie){
+        _cookie = [_headers valueForKey:@"cookie"];
+    }
 }
 
 
