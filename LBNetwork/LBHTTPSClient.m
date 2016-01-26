@@ -70,12 +70,12 @@ static id sharedClient;
          */
         _defaultTextEncoding = NSUTF8StringEncoding;
         _defaultCachePolicy = NSURLRequestReloadIgnoringLocalCacheData;
-        
+
         /**
          * Whether the iPhone net indicator automatically shows when making requests
          */
         _doesControlIndicator = YES;
-        
+
         /**
          * Default request content type
          */
@@ -92,13 +92,13 @@ static id sharedClient;
 + (NSString *)contentTypeForRequestString:(NSString *)requestString {
     //fetch the charset name from the default string encoding
     NSString *contentType = ContentTypeAutomatic; //requestContentType;
-    
+
     if (requestString.length > 0 && [contentType isEqualToString:ContentTypeAutomatic]) {
         //check for "eventual" JSON array or dictionary
         NSString *firstAndLastChar = [NSString stringWithFormat:@"%@%@",
-                                      [requestString substringToIndex:1],
-                                      [requestString substringFromIndex:requestString.length - 1]];
-        
+                                                                [requestString substringToIndex:1],
+                                                                [requestString substringFromIndex:requestString.length - 1]];
+
         if ([firstAndLastChar isEqualToString:@"{}"] || [firstAndLastChar isEqualToString:@"[]"]) {
             //guessing for a JSON request
             contentType = ContentTypeJSON;
@@ -108,7 +108,7 @@ static id sharedClient;
             contentType = ContentTypeWWWEncoded;
         }
     }
-    
+
     //type is set, just add charset
     NSString *charset = (NSString *) CFStringConvertEncodingToIANACharSetName(CFStringConvertNSStringEncodingToEncoding(NSUTF8StringEncoding));
     return [NSString stringWithFormat:@"%@; charset=%@", contentType, charset];
@@ -117,12 +117,12 @@ static id sharedClient;
 #pragma mark - request with authentication challenge
 
 - (void)asyncRequestDataForServerRequest:(LBServerRequest *)serverRequest {
-    
+
     NSMutableURLRequest *httpRequest = [[NSMutableURLRequest alloc] initWithURL:serverRequest.requestURL
                                                                     cachePolicy:_defaultCachePolicy
                                                                 timeoutInterval:serverRequest.requestTimeoutSeconds];
     [httpRequest setHTTPMethod:serverRequest.method];
-    
+
     if ([_requestContentType isEqualToString:ContentTypeAutomatic]) {
         //automatic content type
         if (serverRequest.requestBodyData) {
@@ -136,28 +136,28 @@ static id sharedClient;
         //user set content type
         [httpRequest setValue:_requestContentType forHTTPHeaderField:@"Content-type"];
     }
-    
-    
+
+
     //add the custom headers
     for (NSString *key in [serverRequest.headers allKeys]) {
         [httpRequest setValue:serverRequest.headers[key] forHTTPHeaderField:key];
     }
-    
+
     if (serverRequest.requestBodyData && ![serverRequest.method isEqualToString:kMethodGET]) {
         [httpRequest setHTTPBody:serverRequest.requestBodyData];
         [httpRequest setValue:[NSString stringWithFormat:@"%lu", (unsigned long) serverRequest.requestBodyData.length] forHTTPHeaderField:@"Content-Length"];
     }
-    
+
     if ([serverRequest.method isEqualToString:kMethodGET]) {
         NSMutableArray *pathWithParams = [[NSMutableArray alloc] init];
         NSMutableString *path = [serverRequest.path mutableCopy];
-        
+
         for (NSString *key in [serverRequest.params allKeys]) {
             NSString *param = [NSString stringWithFormat:@"%@=%@", key, [serverRequest.params objectForKey:key]];
             [pathWithParams addObject:param];
             LBLogDebug(@"added param:%@", param);
         }
-        
+
         if (![path hasSuffix:@"?"]) {
             [path appendString:@"?"];
             LBLogDebug(@"added '?'");
@@ -165,11 +165,10 @@ static id sharedClient;
         [path appendFormat:@"%@", [pathWithParams componentsJoinedByString:@"&"]];
         [httpRequest setURL:[NSURL URLWithString:path]];
         LBLogDebug(@"path with params:%@", [[httpRequest URL] absoluteString]);
-        
     }
-    
+
     serverRequest.httpRequest = httpRequest;
-    
+
     //fire the request
     [self startRequest:serverRequest];
 }
@@ -191,17 +190,17 @@ static id sharedClient;
     [httpRequest setHTTPShouldHandleCookies:NO];
     [httpRequest setTimeoutInterval:serverRequest.requestTimeoutSeconds];
     [httpRequest setHTTPMethod:kMethodPOST];
-    
+
     for (NSString *key in [serverRequest.headers allKeys]) {
         [httpRequest setValue:serverRequest.headers[key] forHTTPHeaderField:key];
     }
-    
+
     [httpRequest setHTTPBody:serverRequest.requestBodyData];
-    
+
     // set the content-length
     NSString *postLength = [NSString stringWithFormat:@"%lu", (unsigned long) [serverRequest.requestBodyData length]];
     [httpRequest setValue:postLength forHTTPHeaderField:@"Content-Length"];
-    
+
     serverRequest.httpRequest = httpRequest;
     [self startRequest:serverRequest];
 }
@@ -212,20 +211,20 @@ static id sharedClient;
     [httpRequest setHTTPShouldHandleCookies:NO];
     [httpRequest setTimeoutInterval:serverRequest.requestTimeoutSeconds];
     [httpRequest setHTTPMethod:kMethodPOST];
-    
+
     for (NSString *key in [serverRequest.headers allKeys]) {
         [httpRequest setValue:serverRequest.headers[key] forHTTPHeaderField:key];
     }
-    
+
     NSString *boundary = @"lb_network_boundary_multipart_request";
-    
+
     // set Content-Type in HTTP header
     NSString *contentType = [NSString stringWithFormat:@"multipart/form-data; boundary=%@", boundary];
     [httpRequest setValue:contentType forHTTPHeaderField:@"Content-Type"];
-    
+
     // post body
     NSMutableData *body = [NSMutableData data];
-    
+
     // add params (all params are strings)
     for (NSString *key in [serverRequest.params allKeys]) {
         [body appendData:[[NSString stringWithFormat:@"--%@\r\n", boundary] dataUsingEncoding:NSUTF8StringEncoding]];
@@ -236,28 +235,26 @@ static id sharedClient;
     if (serverRequest.requestBodyData) {
         [body appendData:[[NSString stringWithFormat:@"--%@\r\n", boundary] dataUsingEncoding:NSUTF8StringEncoding]];
         [body appendData:[[NSString stringWithFormat:@"Content-Disposition: form-data; name=%@; filename=%@\r\n", @"file", fileName] dataUsingEncoding:NSUTF8StringEncoding]];
-        
+
         [body appendData:[[NSString stringWithFormat:@"Content-Type: %@\r\n\r\n", serverRequest.dataContentType] dataUsingEncoding:NSUTF8StringEncoding]];
-        
-        
+
         LBLogInfo(@"requestBody:%@", [[NSString alloc] initWithData:body encoding:NSUTF8StringEncoding]);
         [body appendData:serverRequest.requestBodyData];
         [body appendData:[[NSString stringWithFormat:@"\r\n"] dataUsingEncoding:NSUTF8StringEncoding]];
     }
-    
+
     [body appendData:[[NSString stringWithFormat:@"--%@--\r\n", boundary] dataUsingEncoding:NSUTF8StringEncoding]];
-    
+
     // setting the body of the post to the reqeust
     [httpRequest setHTTPBody:body];
-    
+
     // set the content-length
     NSString *postLength = [NSString stringWithFormat:@"%lu", (unsigned long) [body length]];
     [httpRequest setValue:postLength forHTTPHeaderField:@"Content-Length"];
-    
+
     serverRequest.httpRequest = httpRequest;
     [self startRequest:serverRequest];
 }
-
 
 - (void)connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse *)response {
     LBLogDebug(@"Response recieved from url:%@", [[[connection originalRequest] URL] description]);
@@ -285,38 +282,38 @@ static id sharedClient;
     LBLogDebug(@"statusCode:%@", @(con.rawResponse.statusCode));
     id <LBDeserializer> deserializer = [self.connectionProperties deserializerForContentType:[con responseContentType]];
     LBServerResponse *response = [LBServerResponse handleServerResponse:con deserializer:deserializer error:nil];
-    if(!con.request.responseHandler){
+    if (!con.request.responseHandler) {
         LBResponseType type = LBResonseTypeSuccess;
         if ([self.connectionProperties.responseTypeResolver respondsToSelector:@selector(responseType:)]) {
             type = [self.connectionProperties.responseTypeResolver responseType:response];
         }
         switch (type) {
-                
+
             case LBResponseTypeFail: {
                 if (con.request.failResponseHandler) {
                     LBLogDebug(@"onMainThread? %lu", (long) [NSThread isMainThread]);
 //                    [[NSOperationQueue mainQueue]addOperationWithBlock:^{
-                        con.request.failResponseHandler(response.error);
-                        [self cleanUp:con];
+                    con.request.failResponseHandler(response.error);
+                    [self cleanUp:con];
 //                    }];
                 }
             }
             case LBResonseTypeSuccess: {
                 if (con.request.successResponseHandler) {
 //                    [[NSOperationQueue mainQueue]addOperationWithBlock:^{
-                        LBLogDebug(@"onMainThread? %lu", (long) [NSThread isMainThread]);
-                        con.request.successResponseHandler(response.output);
-                        [self cleanUp:con];
+                    LBLogDebug(@"onMainThread? %lu", (long) [NSThread isMainThread]);
+                    con.request.successResponseHandler(response.output);
+                    [self cleanUp:con];
 //                    }];
                 }
-                
             }
                 break;
             default:
                 break;
         }
-    }else {
-        [[NSOperationQueue mainQueue]addOperationWithBlock:^{
+    }
+    else {
+        [[NSOperationQueue mainQueue] addOperationWithBlock:^{
             con.request.responseHandler(response);
             [self cleanUp:con];
         }];
@@ -324,15 +321,13 @@ static id sharedClient;
     [self handleErrorIfNeeded:response];
 }
 
-
 - (void)cleanUp:(LBURLConnection *)con {
-    
+
     [con cancel];
     [con.request cleanUp];
     [con.data setLength:0];
     con = nil;
     [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
-    
 }
 
 - (NSCachedURLResponse *)connection:(NSURLConnection *)connection willCacheResponse:(NSCachedURLResponse *)cachedResponse {
@@ -340,7 +335,7 @@ static id sharedClient;
 }
 
 - (BOOL)connection:(NSURLConnection *)connection canAuthenticateAgainstProtectionSpace:(NSURLProtectionSpace *)protectionSpace {
-    
+
     BOOL trust = [[protectionSpace authenticationMethod] isEqualToString:NSURLAuthenticationMethodServerTrust];
     return trust;
 }
@@ -350,7 +345,7 @@ static id sharedClient;
         SecTrustRef trust = nil;
         SecTrustResultType result = 0;
         OSStatus err = errSecSuccess;
-        
+
         //#if DEBUG
         //        {
         //            NSLog(@"Chain received from the server (working 'up'):");
@@ -371,7 +366,7 @@ static id sharedClient;
         //            }
         //        }
         //#endif
-        
+
         if (checkHostname) {
             // We use the standard Policy of SSL - which also checks hostnames.
             // -- see SecPolicyCreateSSL() for details.
@@ -386,51 +381,50 @@ static id sharedClient;
         else {
             // Create a new Policy - which goes easy on the hostname.
             //
-            
+
             // Extract the chain of certificates provided by the server.
             //
             CFIndex certificateCount = SecTrustGetCertificateCount(challenge.protectionSpace.serverTrust);
             NSMutableArray *chain = [NSMutableArray array];
-            
+
             for (int i = 0; i < certificateCount; i++) {
                 SecCertificateRef certRef = SecTrustGetCertificateAtIndex(challenge.protectionSpace.serverTrust, i);
                 [chain addObject:(__bridge id) (certRef)];
             }
-            
+
             // And create a bland policy which only checks signature paths.
             //
             if (err == errSecSuccess)
                 err = SecTrustCreateWithCertificates((__bridge CFArrayRef) (chain),
-                                                     SecPolicyCreateBasicX509(), &trust);
+                        SecPolicyCreateBasicX509(), &trust);
 #if DEBUG
             LBLogDebug(@"The certificate is NOT expected to match the hostname '%@' ",
                        challenge.protectionSpace.host);
 #endif
         }
-        
-        
+
         if (self.certificateFromAuthority) {
             [challenge.sender useCredential:[NSURLCredential credentialForTrust:trust]
                  forAuthenticationChallenge:challenge];
             return;
         }
         else {
-            
+
             // Explicity specify the list of certificates we actually trust (i.e. those I have hardcoded
             // in the app - rather than those provided by some randon server on the internet).
             //
             if (err == errSecSuccess)
                 err = SecTrustSetAnchorCertificates(trust, caChainArrayRef);
-            
+
             // And only use above - i.e. do not check the system its global keychain or something
             // else the user may have fiddled with.
             //
             if (err == errSecSuccess)
                 err = SecTrustSetAnchorCertificatesOnly(trust, YES);
-            
+
             if (err == errSecSuccess)
                 err = SecTrustEvaluate(trust, &result);
-            
+
             if (err == errSecSuccess) {
                 switch (result) {
                     case kSecTrustResultProceed:
@@ -478,15 +472,14 @@ static id sharedClient;
             //        CFStringRef str =SecCopyErrorMessageString(err,NULL);
             //        NSLog(@"Internal failure to validate: result %@", str);
             //        CFRelease(str);
-            
+
             [[challenge sender] cancelAuthenticationChallenge:challenge];
-            
-        done:
+
+            done:
             if (!checkHostname)
                 CFRelease(trust);
             return;
         }
-        
     }
     // In this example we can cancel at this point - as we only do
     // canAuthenticateAgainstProtectionSpace against ServerTrust.
@@ -494,53 +487,56 @@ static id sharedClient;
     // But in other situations a more gentle continue may be appropriate.
     //
     // [challenge.sender continueWithoutCredentialForAuthenticationChallenge:challenge];
-    
+
     LBLogDebug(@"Not something we can handle - so we're canceling it.");
     [challenge.sender cancelAuthenticationChallenge:challenge];
 }
 
 - (void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error {
-    
+
     [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
     __block LBURLConnection *con = (LBURLConnection *) connection;
     LBLogDebug(@"%@", [NSString stringWithFormat:@"Did recieve error: %@", [error description]]);
     LBLogDebug(@"%@", [NSString stringWithFormat:@"%@", [[error userInfo] description]]);
     LBLogDebug(@"response:%@", con.rawResponse);
     LBLogDebug(@"statusCode:%@", @(con.rawResponse.statusCode));
-    
+
     BOOL shouldRetryRequest = NO;
     if ([[self.connectionProperties errorHandler] respondsToSelector:@selector(shouldRetryRequest:forCurrentTry:)]) {
         shouldRetryRequest = [[self.connectionProperties errorHandler] shouldRetryRequest:error forCurrentTry:con.retries];
     }
-    
+
     if (shouldRetryRequest) {
         LBURLConnection *conrestart = [con copy];
         conrestart.retries = con.retries + 1;
         [conrestart setDelegateQueue:self.connectionQueue];
         [conrestart start];
         [con cancel];
-        
     }
     else {
-        [con cancel];
         LBServerResponse *response = [LBServerResponse handleServerResponse:con
                                                                deserializer:nil
                                                                       error:error];
         response.currentRequestTryCount = con.retries;
         response.error = error;
-        [[NSOperationQueue mainQueue]addOperationWithBlock:^{
-            if (con.request.failResponseHandler) {
-                con.request.failResponseHandler(response.error);
-            }else {
-                if (con.request.responseHandler) {
-                    con.request.responseHandler(response);
-                }
+        if (con.request.failResponseHandler) {
+            LBURLConnection *lburlConnection = con;
+            LBServerRequest *request = lburlConnection.request;
+            LBServerFailResponseHandler pFunction = request.failResponseHandler;
+            LBServerResponse *serverResponse = response;
+            NSError *error1 = serverResponse.error;
+            pFunction(error1);
+        }
+        else {
+            if (con.request.responseHandler) {
+                con.request.responseHandler(response);
             }
-            [con.request cleanUp];
-            [con.data setLength:0];
-            con = nil;
-         }];
-        
+        }
+        [con.request cleanUp];
+        [con.data setLength:0];
+        [con cancel];
+        con = nil;
+
         [self handleErrorIfNeeded:response];
     }
 }
@@ -570,7 +566,7 @@ static id sharedClient;
         if (![self.alert isVisible]) {
             [self.alert setTitle:title];
             [self.alert setMessage:message];
-            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(3 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t) (3 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
                 [self.alert show];
             });
         }
@@ -578,10 +574,10 @@ static id sharedClient;
 }
 
 - (void)sendRequest:(LBServerRequest *)request {
-    
+
     LBLogInfo(@"sending %@ request to path:%@", request.method, request.path);
     LBLogDebug(@"withParams:%@, andBody:%@, andHeaders:%@,handingResponse:%d", request.params, request.requestBodyString, request.headers, (request.successResponseHandler != nil));
-    
+
     [self asyncRequestDataForServerRequest:request];
 }
 
@@ -591,21 +587,20 @@ static id sharedClient;
     if (!derCA) {
         return NO;
     }
-    
+
     SecCertificateRef caRef = SecCertificateCreateWithData(NULL, (__bridge CFDataRef) derCA);
     if (!caRef) {
         return NO;
     }
     NSArray *chain = [NSArray arrayWithObject:(__bridge id) (caRef)];
-    
+
     return [self initWithRootCAs:chain strictHostNameCheck:check];
 }
 
 - (BOOL)initWithRootCAs:(NSArray *)anArrayOfSecCertificateRef strictHostNameCheck:(BOOL)check {
-    
-    
+
     caChainArrayRef = CFBridgingRetain(anArrayOfSecCertificateRef);
-    
+
     return YES;
 }
 
@@ -619,6 +614,5 @@ static id sharedClient;
 }
 
 - (void)responseType:(id)sender {
-    
 }
 @end
