@@ -35,10 +35,13 @@
 @property (nonatomic,strong)NSString *rawResponseString;
 @property (nonatomic,strong)NSURL *requestURL;
 @property (nonatomic,assign)NSInteger currentRequestTryCount;
+@property (nonatomic,strong)LBServerRequest *request;
 
-+ (instancetype)handleServerResponse:(LBURLConnection *)connection
-                        deserializer:(id<LBDeserializer>)deserializer
-                               error:(NSError *)error;
++ (instancetype)handleServerResponse:(NSHTTPURLResponse *)rawResponse
+        request:(LBServerRequest *)request
+        data:(NSData *)data
+        deserializer:(id<LBDeserializer>)deserializer
+        error:(NSError *)error;
 
 @end
 

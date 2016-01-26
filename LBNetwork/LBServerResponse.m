@@ -43,6 +43,25 @@
     return res;
 }
 
++ (instancetype)handleServerResponse:(NSHTTPURLResponse *)rawResponse
+                            request:(LBServerRequest *)request
+                            data:(NSData *)data
+                        deserializer:(id<LBDeserializer>)deserializer
+                            error:(NSError *)error{
+    NSHTTPURLResponse *response = rawResponse;
+    NSString* responseString = [data toString];
+    LBServerResponse *res = [[self alloc] init];
+    [res setHeaders:[response allHeaderFields]];
+    [res setStatusCode:[response statusCode]];
+    [res setRawResponse:responseString];
+    [res setError:error];
+    [res setRequest:request];
+    if(deserializer){
+        res.output = [deserializer deserialize:data toClass:[request responseClass]];
+    }
+    return res;
+}
+
 
 
 - (void)setRawResponse:(NSString *)rawResponse {

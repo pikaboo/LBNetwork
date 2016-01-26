@@ -63,6 +63,10 @@
     return [[self.rawResponse allHeaderFields]objectForKey:@"Content-Type"];
 }
 
++(NSString *)responseContentType:(NSHTTPURLResponse *)response{
+	return [[response allHeaderFields]objectForKey:@"Content-Type"];
+}
+
 -(instancetype)copy {
     LBURLConnection *copy = [[LBURLConnection alloc]initWithRequest:self.request delegate:self.connectionDelegate];
 	copy.retries = self.retries;

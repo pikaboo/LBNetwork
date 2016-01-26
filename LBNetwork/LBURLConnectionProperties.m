@@ -33,6 +33,9 @@
 @implementation LBDictionaryDeserializer
 
 -(id)deserialize:(NSData *)data toClass:(Class)clz{
+    if(!data)
+        return data;
+    
     id  ret = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
     return ret;
 }

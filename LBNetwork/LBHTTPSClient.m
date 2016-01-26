@@ -118,6 +118,13 @@ static id sharedClient;
 
 - (void)asyncRequestDataForServerRequest:(LBServerRequest *)serverRequest {
 
+    [self setupRequest:serverRequest];
+
+    //fire the request
+    [self startRequest:serverRequest];
+}
+
+- (LBServerRequest *)setupRequest:(LBServerRequest *)serverRequest {
     NSMutableURLRequest *httpRequest = [[NSMutableURLRequest alloc] initWithURL:serverRequest.requestURL
                                                                     cachePolicy:_defaultCachePolicy
                                                                 timeoutInterval:serverRequest.requestTimeoutSeconds];
@@ -158,19 +165,32 @@ static id sharedClient;
             LBLogDebug(@"added param:%@", param);
         }
 
-        if (![path hasSuffix:@"?"]) {
-            [path appendString:@"?"];
-            LBLogDebug(@"added '?'");
+        if (pathWithParams.count) {
+            if (![path hasSuffix:@"?"]) {
+                [path appendString:@"?"];
+                LBLogDebug(@"added '?'");
+            }
+            [path appendFormat:@"%@", [pathWithParams componentsJoinedByString:@"&"]];
         }
-        [path appendFormat:@"%@", [pathWithParams componentsJoinedByString:@"&"]];
         [httpRequest setURL:[NSURL URLWithString:path]];
         LBLogDebug(@"path with params:%@", [[httpRequest URL] absoluteString]);
     }
 
     serverRequest.httpRequest = httpRequest;
 
-    //fire the request
-    [self startRequest:serverRequest];
+    return serverRequest;
+}
+
+- (void)startSynchronousRequest:(LBServerRequest *)request responseHandler:(LBServerResponseHandler)responseHandler {
+
+    [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:YES];
+    NSHTTPURLResponse *response = nil;
+    NSError *error = nil;
+    request = [self setupRequest:request];
+    NSData *result = [LBURLConnection sendSynchronousRequest:request.httpRequest returningResponse:&response error:&error];
+    request.responseHandler = responseHandler;
+    id <LBDeserializer> deserializer = [self.connectionProperties deserializerForContentType:[LBURLConnection responseContentType:response]];
+    [self handleResponse:[LBServerResponse handleServerResponse:response request:request data:result deserializer:deserializer error:error]];
 }
 
 - (void)startRequest:(LBServerRequest *)request {
@@ -279,32 +299,32 @@ static id sharedClient;
     else {
         LBLogDebug(@"Data recieved:%@", stringData);
     }
-    LBLogDebug(@"statusCode:%@", @(con.rawResponse.statusCode));
     id <LBDeserializer> deserializer = [self.connectionProperties deserializerForContentType:[con responseContentType]];
-    LBServerResponse *response = [LBServerResponse handleServerResponse:con deserializer:deserializer error:nil];
-    if (!con.request.responseHandler) {
+    LBServerResponse *response = [LBServerResponse handleServerResponse:con.rawResponse request:con.request data:con.data deserializer:deserializer error:nil];
+
+//    [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+        [self handleResponse:response];
+        [self cleanUp:con];
+//    }];
+}
+
+- (void)handleResponse:(LBServerResponse *)response {
+    if (!response.request.responseHandler) {
         LBResponseType type = LBResonseTypeSuccess;
         if ([self.connectionProperties.responseTypeResolver respondsToSelector:@selector(responseType:)]) {
             type = [self.connectionProperties.responseTypeResolver responseType:response];
         }
+        LBLogDebug(@"onMainThread? %lu", (long) [NSThread isMainThread]);
         switch (type) {
 
             case LBResponseTypeFail: {
-                if (con.request.failResponseHandler) {
-                    LBLogDebug(@"onMainThread? %lu", (long) [NSThread isMainThread]);
-//                    [[NSOperationQueue mainQueue]addOperationWithBlock:^{
-                    con.request.failResponseHandler(response.error);
-                    [self cleanUp:con];
-//                    }];
+                if (response.request.failResponseHandler) {
+                    response.request.failResponseHandler(response.error);
                 }
             }
             case LBResonseTypeSuccess: {
-                if (con.request.successResponseHandler) {
-//                    [[NSOperationQueue mainQueue]addOperationWithBlock:^{
-                    LBLogDebug(@"onMainThread? %lu", (long) [NSThread isMainThread]);
-                    con.request.successResponseHandler(response.output);
-                    [self cleanUp:con];
-//                    }];
+                if (response.request.successResponseHandler) {
+                    response.request.successResponseHandler(response.output);
                 }
             }
                 break;
@@ -313,20 +333,17 @@ static id sharedClient;
         }
     }
     else {
-        [[NSOperationQueue mainQueue] addOperationWithBlock:^{
-            con.request.responseHandler(response);
-            [self cleanUp:con];
-        }];
+        response.request.responseHandler(response);
     }
     [self handleErrorIfNeeded:response];
 }
+
 
 - (void)cleanUp:(LBURLConnection *)con {
 
     [con cancel];
     [con.request cleanUp];
     [con.data setLength:0];
-    con = nil;
     [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
 }
 
@@ -514,7 +531,9 @@ static id sharedClient;
         [con cancel];
     }
     else {
-        LBServerResponse *response = [LBServerResponse handleServerResponse:con
+        LBServerResponse *response = [LBServerResponse handleServerResponse:con.rawResponse
+                                                                    request:con.request
+                                                                       data:con.data
                                                                deserializer:nil
                                                                       error:error];
         response.currentRequestTryCount = con.retries;

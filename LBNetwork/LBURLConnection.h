@@ -37,5 +37,5 @@
 -(instancetype)initWithRequest:(LBServerRequest *)request delegate:(id)delegate startImmediately:(BOOL)startImmediately;
 
 -(NSString *)responseContentType;
-
++(NSString *)responseContentType:(NSHTTPURLResponse *)response;
 @end
