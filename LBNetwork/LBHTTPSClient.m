@@ -310,11 +310,7 @@ static id sharedClient;
 
 - (NSURLRequest *)connection:(NSURLConnection *)connection willSendRequest:(NSURLRequest *)request redirectResponse:(NSHTTPURLResponse *)redirectResponse {
     LBURLConnection *con = (LBURLConnection *)connection;
-    if ( con.request.shouldAutoRedirect) {
-        return request;
-    }
-    
-    if(!redirectResponse){
+    if (con.request.shouldAutoRedirect || !redirectResponse ) {
         return request;
     }
     
