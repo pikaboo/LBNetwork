@@ -308,6 +308,16 @@ static id sharedClient;
 //    }];
 }
 
+- (NSURLRequest *)connection:(NSURLConnection *)connection willSendRequest:(NSURLRequest *)request redirectResponse:(NSHTTPURLResponse *)redirectResponse {
+    LBURLConnection *con = (LBURLConnection *)connection;
+    if (redirectResponse && con.request.shouldNotAutoRedirect) {
+        con.rawResponse = redirectResponse;
+        return nil;
+    }
+    
+    return request;
+}
+
 - (void)handleResponse:(LBServerResponse *)response {
     if (!response.request.responseHandler) {
         LBResponseType type = LBResonseTypeSuccess;
