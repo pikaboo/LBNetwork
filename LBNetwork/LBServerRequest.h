@@ -43,7 +43,7 @@ typedef void (^LBServerFailResponseHandler)(NSError *error);
 @property (nonatomic,strong)LBServerResponseHandler responseHandler;
 @property (nonatomic,strong)NSMutableURLRequest *httpRequest;
 @property (nonatomic,assign)int requestTimeoutSeconds;
-@property (nonatomic,assign)BOOL shouldNotAutoRedirect;
+@property (nonatomic,assign)BOOL shouldAutoRedirect;
 
 +(instancetype)request;
 +(instancetype)getRequest;

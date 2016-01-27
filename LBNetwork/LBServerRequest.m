@@ -34,6 +34,7 @@
 -(instancetype)init{
     self = [super init];
     if (self) {
+        self.shouldAutoRedirect = YES;
         self.requestTimeoutSeconds = kDefaultRequestTimeout;
     }
     return self;
@@ -81,6 +82,7 @@
     copy.requestBodyData = [self.requestBodyData copy];
     copy.httpRequest = [self.httpRequest mutableCopy];
     copy.responseClass = self.responseClass;
+    copy.shouldAutoRedirect = self.shouldAutoRedirect;
     return copy;
 }
 
