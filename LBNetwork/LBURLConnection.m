@@ -60,7 +60,8 @@
 }
 
 -(NSString *)responseContentType{
-    return [[self.rawResponse allHeaderFields]objectForKey:@"Content-Type"];
+    NSString *contentType = [[self.rawResponse allHeaderFields]objectForKey:@"Content-Type"];
+    return contentType.length ? contentType : ContentTypeJSON;
 }
 
 +(NSString *)responseContentType:(NSHTTPURLResponse *)response{

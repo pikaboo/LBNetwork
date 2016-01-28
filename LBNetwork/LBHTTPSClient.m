@@ -333,6 +333,7 @@ static id sharedClient;
                     response.request.failResponseHandler(response.error);
                 }
             }
+                break;
             case LBResonseTypeSuccess: {
                 if (response.request.successResponseHandler) {
                     response.request.successResponseHandler(response.output);
