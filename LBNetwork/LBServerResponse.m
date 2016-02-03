@@ -27,22 +27,6 @@
 @implementation LBServerResponse
 
 
-+ (instancetype)handleServerResponse:(LBURLConnection *)connection
-                        deserializer:(id<LBDeserializer>)deserializer
-                            error:(NSError *)error{
-    NSHTTPURLResponse *response = connection.rawResponse;
-    NSString* responseString = [[connection data] toString];
-    LBServerResponse *res = [[self alloc] init];
-    [res setHeaders:[response allHeaderFields]];
-    [res setStatusCode:[response statusCode]];
-    [res setRawResponse:responseString];
-    [res setError:error];
-    if(deserializer){
-        res.output = [deserializer deserialize:[connection data] toClass:[connection.request responseClass]];
-    }
-    return res;
-}
-
 + (instancetype)handleServerResponse:(NSHTTPURLResponse *)rawResponse
                             request:(LBServerRequest *)request
                             data:(NSData *)data
