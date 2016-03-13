@@ -43,6 +43,7 @@
         deserializer:(id<LBDeserializer>)deserializer
         error:(NSError *)error;
 
+- (void)setResponseData:(NSData *)data;
 @end
 
 @interface NSData (LBServerResponse)
