@@ -98,4 +98,11 @@
     self.failResponseHandler = nil;
     self.responseHandler = nil;
 }
+
+-(void)authenticate:(NSString *)username password:(NSString *)password{
+    NSString *authStr = [NSString stringWithFormat:@"%@:%@", username, password];
+    NSData *authData = [authStr dataUsingEncoding:NSASCIIStringEncoding];
+    NSString *authValue = [NSString stringWithFormat:@"Basic %@", [authData  base64EncodedStringWithOptions:NSDataBase64Encoding76CharacterLineLength]];
+    self.basicAuthHeaders = @{@"Authorization":authValue};
+}
 @end
