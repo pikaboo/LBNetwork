@@ -53,4 +53,5 @@ typedef void (^LBServerFailResponseHandler)(NSError *error);
 +(instancetype)imageUploadRequest:(UIImage *)image;
 -(NSURL *)requestURL;
 -(void)cleanUp;
+-(void)authenticate:(NSString *)username password:(NSString *)password;
 @end
