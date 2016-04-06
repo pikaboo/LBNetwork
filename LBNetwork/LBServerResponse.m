@@ -26,50 +26,74 @@
 
 @implementation LBServerResponse
 
-
 + (instancetype)handleServerResponse:(NSHTTPURLResponse *)rawResponse
-                            request:(LBServerRequest *)request
-                            data:(NSData *)data
-                        deserializer:(id<LBDeserializer>)deserializer
-                            error:(NSError *)error{
+        request:(LBServerRequest *)request
+        data:(NSData *)data
+        deserializer:(id <LBDeserializer>)deserializer
+        error:(NSError *)error {
     NSHTTPURLResponse *response = rawResponse;
-    NSString* responseString = [data toString];
     LBServerResponse *res = [[self alloc] init];
     [res setHeaders:[response allHeaderFields]];
     [res setStatusCode:[response statusCode]];
-    [res setRawResponse:responseString];
+    [res setResponseData:data];
     [res setError:error];
     [res setRequest:request];
-    if(deserializer){
+    if (deserializer) {
         res.output = [deserializer deserialize:data toClass:[request responseClass]];
     }
     return res;
 }
 
+- (void)setResponseData:(NSData *)data {
+    NSString *contentType = _headers[@"Content-Type"];
+    NSString *charset = nil;
+    if (contentType) {
+        NSArray<NSString *> *contents = [contentType componentsSeparatedByString:@";"];
+        for (NSUInteger i = 0; i < contents.count; i++) {
+            NSRange range = [contents[i] rangeOfString:@"charset="];
+            if (range.location == NSNotFound)
+                continue;
 
+            charset = [contents[i] substringFromIndex:range.location + range.length];
+        }
+    }
+
+    _rawResponseData = data;
+    if (charset && [charset isEqualToString:@"EUC-JP"]) {
+        _rawResponseString = [[NSString alloc] initWithData:_rawResponseData encoding:NSJapaneseEUCStringEncoding];
+    }
+    else
+        _rawResponseString = [[NSString alloc] initWithData:_rawResponseData encoding:NSUTF8StringEncoding];
+
+    if (!_rawResponseString)
+        //TODO  ADD A HUGE LOG THAT SOMETHING HERE IS WRONG AND NOT WORKING 
+        _rawResponseString = @"";
+}
 
 - (void)setRawResponse:(NSString *)rawResponse {
-    rawResponse =
-    [rawResponse stringByReplacingOccurrencesOfString:@"{\"d\":null}"
-                                           withString:@""];
+
+    //TODO Lena... what are these two lines are for????
+    rawResponse = [rawResponse stringByReplacingOccurrencesOfString:@"{\"d\":null}"
+                                                         withString:@""];
     _rawResponseData = [rawResponse dataUsingEncoding:NSUTF8StringEncoding];
     _rawResponseString = rawResponse;
     if ([rawResponse length] == 0) {
         return;
     }
 }
+
 - (NSString *)description {
     return [NSString stringWithFormat:@"ServerResponse headers: "
-            "%@\ncookie:%@\nrawResponse:%@"
-            "\nstatusCode=%ld,output=%@",
-            _headers, _cookie, _rawResponseString,
-            (long)_statusCode, _output];
+                                              "%@\ncookie:%@\nrawResponse:%@"
+                                              "\nstatusCode=%ld,output=%@",
+                                      _headers, _cookie, _rawResponseString,
+                                      (long) _statusCode, _output];
 }
 
 - (void)setHeaders:(NSDictionary *)headers {
     _headers = headers;
     _cookie = [_headers valueForKey:@"Set-Cookie"];
-    if(!_cookie){
+    if (!_cookie) {
         _cookie = [_headers valueForKey:@"cookie"];
     }
 }
@@ -79,8 +103,8 @@
 
 @implementation NSData (LBServerResponse)
 
--(NSString *)toString{
-   return[[NSString alloc] initWithData:self encoding:NSUTF8StringEncoding];
+- (NSString *)toString {
+    return [[NSString alloc] initWithData:self encoding:NSUTF8StringEncoding];
 }
 
 @end

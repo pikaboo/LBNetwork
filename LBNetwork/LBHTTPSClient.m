@@ -149,7 +149,10 @@ static id sharedClient;
     for (NSString *key in [serverRequest.headers allKeys]) {
         [httpRequest setValue:serverRequest.headers[key] forHTTPHeaderField:key];
     }
-
+    for (NSString *key in [serverRequest.basicAuthHeaders allKeys]) {
+        [httpRequest setValue:serverRequest.basicAuthHeaders[key] forHTTPHeaderField:key];
+    }
+    
     if (serverRequest.requestBodyData && ![serverRequest.method isEqualToString:kMethodGET]) {
         [httpRequest setHTTPBody:serverRequest.requestBodyData];
         [httpRequest setValue:[NSString stringWithFormat:@"%lu", (unsigned long) serverRequest.requestBodyData.length] forHTTPHeaderField:@"Content-Length"];
