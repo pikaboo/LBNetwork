@@ -489,7 +489,7 @@
 			buildSettings = {
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DSTROOT = /tmp/LBNetwork.dst;
-				ENABLE_BITCODE = NO;
+				ENABLE_BITCODE = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "LBNetwork/LBNetwork-Prefix.pch";
 				OTHER_LDFLAGS = "-ObjC";
@@ -505,7 +505,7 @@
 			buildSettings = {
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DSTROOT = /tmp/LBNetwork.dst;
-				ENABLE_BITCODE = NO;
+				ENABLE_BITCODE = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "LBNetwork/LBNetwork-Prefix.pch";
 				OTHER_LDFLAGS = "-ObjC";
@@ -595,7 +595,7 @@
 			buildSettings = {
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DSTROOT = /tmp/LBNetwork.dst;
-				ENABLE_BITCODE = NO;
+				ENABLE_BITCODE = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "LBNetwork/LBNetwork-Prefix.pch";
 				OTHER_LDFLAGS = "-ObjC";
@@ -672,7 +672,7 @@
 			buildSettings = {
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DSTROOT = /tmp/LBNetwork.dst;
-				ENABLE_BITCODE = NO;
+				ENABLE_BITCODE = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "LBNetwork/LBNetwork-Prefix.pch";
 				OTHER_LDFLAGS = "-ObjC";
