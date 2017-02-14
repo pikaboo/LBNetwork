@@ -15,8 +15,8 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "BF15A8C71E535CB600B88D2B"
-               BuildableName = "LBNetwork.framework"
-               BlueprintName = "LBNetwork"
+               BuildableName = "LBNetworkFramework.framework"
+               BlueprintName = "LBNetworkFramework"
                ReferencedContainer = "container:LBNetwork.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -46,8 +46,8 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "BF15A8C71E535CB600B88D2B"
-            BuildableName = "LBNetwork.framework"
-            BlueprintName = "LBNetwork"
+            BuildableName = "LBNetworkFramework.framework"
+            BlueprintName = "LBNetworkFramework"
             ReferencedContainer = "container:LBNetwork.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
@@ -64,8 +64,8 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "BF15A8C71E535CB600B88D2B"
-            BuildableName = "LBNetwork.framework"
-            BlueprintName = "LBNetwork"
+            BuildableName = "LBNetworkFramework.framework"
+            BlueprintName = "LBNetworkFramework"
             ReferencedContainer = "container:LBNetwork.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
