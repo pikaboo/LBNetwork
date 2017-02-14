@@ -15,26 +15,22 @@
  * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-//
-//  LBLibrary.h
-//  LBNetwork
-//
-//  Created by Lena Brusilovski on on 8/18/14.
-//
-
-#ifndef LBNetwork_LBNetwork_h
-#define LBNetwork_LBNetwork_h
-
-#import "Logging.h"
-#import "LBHTTPSClient.h"
-#import "LBServerRequest.h"
-#import "LBServerResponse.h"
-#import "HTTPStatusCodes.h"
-#import "LBURLConnectionProperties.h"
-#import "LBURLConnection.h"
-
-#import "LBServerResponse.h"
 
 #import <UIKit/UIKit.h>
 
-#endif
+//! Project version number for LBNetwork.
+FOUNDATION_EXPORT double LBNetworkVersionNumber;
+
+//! Project version string for LBNetwork.
+FOUNDATION_EXPORT const unsigned char LBNetworkVersionString[];
+
+// In this header, you should import all the public headers of your framework using statements like #import <LBNetwork/PublicHeader.h>
+#import "LBServerRequest.h"
+#import "LBHTTPSClient.h"
+#import "LBDeserializer.h"
+#import "LBURLConnection.h"
+#import "LBServerResponse.h"
+#import "LBURLConnectionProperties.h"
+#import "Logging.h"
+#import "HTTPStatusCodes.h"
+

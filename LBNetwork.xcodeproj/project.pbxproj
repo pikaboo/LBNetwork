@@ -33,7 +33,7 @@
 		5A65949C19A1D75600F0A43E /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5A65949B19A1D75600F0A43E /* XCTest.framework */; };
 		5A65949D19A1D75600F0A43E /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5A65948D19A1D75600F0A43E /* Foundation.framework */; };
 		5A65949F19A1D75600F0A43E /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5A65949E19A1D75600F0A43E /* UIKit.framework */; };
-		5A6594A219A1D75600F0A43E /* libLBNetwork.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5A65948A19A1D75600F0A43E /* libLBNetwork.a */; };
+		5A6594A219A1D75600F0A43E /* libLBNetworkLib.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5A65948A19A1D75600F0A43E /* libLBNetworkLib.a */; };
 		5A6594A819A1D75600F0A43E /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 5A6594A619A1D75600F0A43E /* InfoPlist.strings */; };
 		5A6594AA19A1D75600F0A43E /* LBNetworkTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A6594A919A1D75600F0A43E /* LBNetworkTests.m */; };
 		5A6594B619A1D88800F0A43E /* LBHTTPSClient.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A6594B519A1D88800F0A43E /* LBHTTPSClient.m */; };
@@ -41,6 +41,20 @@
 		5A6594BB19A1D9E300F0A43E /* LBServerResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A6594BA19A1D9E300F0A43E /* LBServerResponse.m */; };
 		5A6594BF19A1DB4200F0A43E /* LBURLConnection.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A6594BE19A1DB4200F0A43E /* LBURLConnection.m */; };
 		5A6594C419A1F04D00F0A43E /* LBURLConnectionProperties.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A6594C319A1F04D00F0A43E /* LBURLConnectionProperties.m */; };
+		BF15A8CC1E535CB600B88D2B /* LBNetwork.h in Headers */ = {isa = PBXBuildFile; fileRef = BF15A8CA1E535CB600B88D2B /* LBNetwork.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		BF15A8D21E535CCD00B88D2B /* LBURLConnection.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A6594BE19A1DB4200F0A43E /* LBURLConnection.m */; };
+		BF15A8D31E535CCD00B88D2B /* LBServerResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A6594BA19A1D9E300F0A43E /* LBServerResponse.m */; };
+		BF15A8D41E535CCD00B88D2B /* LBHTTPSClient.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A6594B519A1D88800F0A43E /* LBHTTPSClient.m */; };
+		BF15A8D51E535CCD00B88D2B /* LBURLConnectionProperties.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A6594C319A1F04D00F0A43E /* LBURLConnectionProperties.m */; };
+		BF15A8D61E535CCD00B88D2B /* LBServerRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = BFB4C1C51B95D68C00ED8763 /* LBServerRequest.m */; };
+		BF15A8D71E535CE200B88D2B /* LBURLConnection.h in Headers */ = {isa = PBXBuildFile; fileRef = 5A6594BD19A1DB4200F0A43E /* LBURLConnection.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		BF15A8D81E535CE200B88D2B /* HTTPStatusCodes.h in Headers */ = {isa = PBXBuildFile; fileRef = 5A6594BC19A1DB3600F0A43E /* HTTPStatusCodes.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		BF15A8D91E535CE200B88D2B /* LBServerResponse.h in Headers */ = {isa = PBXBuildFile; fileRef = 5A6594B919A1D9E300F0A43E /* LBServerResponse.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		BF15A8DA1E535CE200B88D2B /* LBHTTPSClient.h in Headers */ = {isa = PBXBuildFile; fileRef = 5A6594B419A1D88800F0A43E /* LBHTTPSClient.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		BF15A8DB1E535CE200B88D2B /* Logging.h in Headers */ = {isa = PBXBuildFile; fileRef = 5A6594B319A1D7B300F0A43E /* Logging.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		BF15A8DC1E535CE200B88D2B /* LBURLConnectionProperties.h in Headers */ = {isa = PBXBuildFile; fileRef = 5A6594C219A1F04D00F0A43E /* LBURLConnectionProperties.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		BF15A8DD1E535CE200B88D2B /* LBServerRequest.h in Headers */ = {isa = PBXBuildFile; fileRef = BFB4C1C41B95D68C00ED8763 /* LBServerRequest.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		BF15A8DE1E535CE200B88D2B /* LBDeserializer.h in Headers */ = {isa = PBXBuildFile; fileRef = BF573F571B97289C001F5B6D /* LBDeserializer.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		BF573F581B97289C001F5B6D /* LBDeserializer.h in Headers */ = {isa = PBXBuildFile; fileRef = BF573F571B97289C001F5B6D /* LBDeserializer.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		BFB4C1C61B95D68C00ED8763 /* LBServerRequest.h in Headers */ = {isa = PBXBuildFile; fileRef = BFB4C1C41B95D68C00ED8763 /* LBServerRequest.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		BFB4C1C71B95D68C00ED8763 /* LBServerRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = BFB4C1C51B95D68C00ED8763 /* LBServerRequest.m */; };
@@ -79,7 +93,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		5A65948A19A1D75600F0A43E /* libLBNetwork.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libLBNetwork.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		5A65948A19A1D75600F0A43E /* libLBNetworkLib.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libLBNetworkLib.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		5A65948D19A1D75600F0A43E /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		5A65949119A1D75600F0A43E /* LBNetwork-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "LBNetwork-Prefix.pch"; sourceTree = "<group>"; };
 		5A65949A19A1D75600F0A43E /* LBNetworkTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = LBNetworkTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -100,6 +114,9 @@
 		5A6594C119A1DD7100F0A43E /* LBNetwork.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LBNetwork.h; sourceTree = "<group>"; };
 		5A6594C219A1F04D00F0A43E /* LBURLConnectionProperties.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LBURLConnectionProperties.h; sourceTree = "<group>"; };
 		5A6594C319A1F04D00F0A43E /* LBURLConnectionProperties.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LBURLConnectionProperties.m; sourceTree = "<group>"; };
+		BF15A8C81E535CB600B88D2B /* LBNetwork.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = LBNetwork.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		BF15A8CA1E535CB600B88D2B /* LBNetwork.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LBNetwork.h; sourceTree = "<group>"; };
+		BF15A8CB1E535CB600B88D2B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		BF573F571B97289C001F5B6D /* LBDeserializer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LBDeserializer.h; sourceTree = "<group>"; };
 		BFB4C1C41B95D68C00ED8763 /* LBServerRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LBServerRequest.h; sourceTree = "<group>"; };
 		BFB4C1C51B95D68C00ED8763 /* LBServerRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LBServerRequest.m; sourceTree = "<group>"; };
@@ -120,10 +137,17 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				5A6594A219A1D75600F0A43E /* libLBNetwork.a in Frameworks */,
+				5A6594A219A1D75600F0A43E /* libLBNetworkLib.a in Frameworks */,
 				5A65949C19A1D75600F0A43E /* XCTest.framework in Frameworks */,
 				5A65949F19A1D75600F0A43E /* UIKit.framework in Frameworks */,
 				5A65949D19A1D75600F0A43E /* Foundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		BF15A8C41E535CB600B88D2B /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -135,6 +159,7 @@
 			children = (
 				5A65948F19A1D75600F0A43E /* LBNetwork */,
 				5A6594A319A1D75600F0A43E /* LBNetworkTests */,
+				BF15A8C91E535CB600B88D2B /* LBNetwork */,
 				5A65948C19A1D75600F0A43E /* Frameworks */,
 				5A65948B19A1D75600F0A43E /* Products */,
 			);
@@ -143,8 +168,9 @@
 		5A65948B19A1D75600F0A43E /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				5A65948A19A1D75600F0A43E /* libLBNetwork.a */,
+				5A65948A19A1D75600F0A43E /* libLBNetworkLib.a */,
 				5A65949A19A1D75600F0A43E /* LBNetworkTests.xctest */,
+				BF15A8C81E535CB600B88D2B /* LBNetwork.framework */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -209,6 +235,15 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
+		BF15A8C91E535CB600B88D2B /* LBNetwork */ = {
+			isa = PBXGroup;
+			children = (
+				BF15A8CA1E535CB600B88D2B /* LBNetwork.h */,
+				BF15A8CB1E535CB600B88D2B /* Info.plist */,
+			);
+			path = LBNetwork;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
@@ -229,12 +264,28 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		BF15A8C51E535CB600B88D2B /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				BF15A8CC1E535CB600B88D2B /* LBNetwork.h in Headers */,
+				BF15A8D71E535CE200B88D2B /* LBURLConnection.h in Headers */,
+				BF15A8D81E535CE200B88D2B /* HTTPStatusCodes.h in Headers */,
+				BF15A8D91E535CE200B88D2B /* LBServerResponse.h in Headers */,
+				BF15A8DA1E535CE200B88D2B /* LBHTTPSClient.h in Headers */,
+				BF15A8DB1E535CE200B88D2B /* Logging.h in Headers */,
+				BF15A8DC1E535CE200B88D2B /* LBURLConnectionProperties.h in Headers */,
+				BF15A8DD1E535CE200B88D2B /* LBServerRequest.h in Headers */,
+				BF15A8DE1E535CE200B88D2B /* LBDeserializer.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
-		5A65948919A1D75600F0A43E /* LBNetwork */ = {
+		5A65948919A1D75600F0A43E /* LBNetworkLib */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 5A6594AD19A1D75600F0A43E /* Build configuration list for PBXNativeTarget "LBNetwork" */;
+			buildConfigurationList = 5A6594AD19A1D75600F0A43E /* Build configuration list for PBXNativeTarget "LBNetworkLib" */;
 			buildPhases = (
 				5A65948619A1D75600F0A43E /* Sources */,
 				5A65948719A1D75600F0A43E /* Frameworks */,
@@ -246,9 +297,9 @@
 			);
 			dependencies = (
 			);
-			name = LBNetwork;
+			name = LBNetworkLib;
 			productName = LBNetwork;
-			productReference = 5A65948A19A1D75600F0A43E /* libLBNetwork.a */;
+			productReference = 5A65948A19A1D75600F0A43E /* libLBNetworkLib.a */;
 			productType = "com.apple.product-type.library.static";
 		};
 		5A65949919A1D75600F0A43E /* LBNetworkTests */ = {
@@ -269,6 +320,24 @@
 			productReference = 5A65949A19A1D75600F0A43E /* LBNetworkTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
+		BF15A8C71E535CB600B88D2B /* LBNetwork */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = BF15A8CD1E535CB600B88D2B /* Build configuration list for PBXNativeTarget "LBNetwork" */;
+			buildPhases = (
+				BF15A8C31E535CB600B88D2B /* Sources */,
+				BF15A8C41E535CB600B88D2B /* Frameworks */,
+				BF15A8C51E535CB600B88D2B /* Headers */,
+				BF15A8C61E535CB600B88D2B /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = LBNetwork;
+			productName = LBNetwork;
+			productReference = BF15A8C81E535CB600B88D2B /* LBNetwork.framework */;
+			productType = "com.apple.product-type.framework";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -278,6 +347,13 @@
 				CLASSPREFIX = LB;
 				LastUpgradeCheck = 0510;
 				ORGANIZATIONNAME = LenaBrusilovski;
+				TargetAttributes = {
+					BF15A8C71E535CB600B88D2B = {
+						CreatedOnToolsVersion = 8.2.1;
+						DevelopmentTeam = W3F5TKW2X2;
+						ProvisioningStyle = Automatic;
+					};
+				};
 			};
 			buildConfigurationList = 5A65948519A1D75600F0A43E /* Build configuration list for PBXProject "LBNetwork" */;
 			compatibilityVersion = "Xcode 3.2";
@@ -291,9 +367,10 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				5A65948919A1D75600F0A43E /* LBNetwork */,
+				5A65948919A1D75600F0A43E /* LBNetworkLib */,
 				5A65949919A1D75600F0A43E /* LBNetworkTests */,
 				5A427D9919A3488800BAB461 /* Framework */,
+				BF15A8C71E535CB600B88D2B /* LBNetwork */,
 			);
 		};
 /* End PBXProject section */
@@ -304,6 +381,13 @@
 			buildActionMask = 2147483647;
 			files = (
 				5A6594A819A1D75600F0A43E /* InfoPlist.strings in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		BF15A8C61E535CB600B88D2B /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -361,17 +445,29 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		BF15A8C31E535CB600B88D2B /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				BF15A8D21E535CCD00B88D2B /* LBURLConnection.m in Sources */,
+				BF15A8D31E535CCD00B88D2B /* LBServerResponse.m in Sources */,
+				BF15A8D41E535CCD00B88D2B /* LBHTTPSClient.m in Sources */,
+				BF15A8D51E535CCD00B88D2B /* LBURLConnectionProperties.m in Sources */,
+				BF15A8D61E535CCD00B88D2B /* LBServerRequest.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
 		5A427D9E19A348A000BAB461 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 5A65948919A1D75600F0A43E /* LBNetwork */;
+			target = 5A65948919A1D75600F0A43E /* LBNetworkLib */;
 			targetProxy = 5A427D9D19A348A000BAB461 /* PBXContainerItemProxy */;
 		};
 		5A6594A119A1D75600F0A43E /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 5A65948919A1D75600F0A43E /* LBNetwork */;
+			target = 5A65948919A1D75600F0A43E /* LBNetworkLib */;
 			targetProxy = 5A6594A019A1D75600F0A43E /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
@@ -552,6 +648,141 @@
 			};
 			name = Release;
 		};
+		BF15A8CE1E535CB600B88D2B /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CODE_SIGN_IDENTITY = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEFINES_MODULE = YES;
+				DEVELOPMENT_TEAM = W3F5TKW2X2;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_NO_COMMON_BLOCKS = YES;
+				INFOPLIST_FILE = LBNetwork/Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 10.2;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = com.lenabru.LBNetwork;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Debug;
+		};
+		BF15A8CF1E535CB600B88D2B /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CODE_SIGN_IDENTITY = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DEVELOPMENT_TEAM = W3F5TKW2X2;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_NO_COMMON_BLOCKS = YES;
+				INFOPLIST_FILE = LBNetwork/Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 10.2;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MTL_ENABLE_DEBUG_INFO = NO;
+				PRODUCT_BUNDLE_IDENTIFIER = com.lenabru.LBNetwork;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Release;
+		};
+		BF15A8D01E535CB600B88D2B /* Ad Hoc */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CODE_SIGN_IDENTITY = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DEVELOPMENT_TEAM = W3F5TKW2X2;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_NO_COMMON_BLOCKS = YES;
+				INFOPLIST_FILE = LBNetwork/Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 10.2;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MTL_ENABLE_DEBUG_INFO = NO;
+				PRODUCT_BUNDLE_IDENTIFIER = com.lenabru.LBNetwork;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = "Ad Hoc";
+		};
+		BF15A8D11E535CB600B88D2B /* Beta */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CODE_SIGN_IDENTITY = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DEVELOPMENT_TEAM = W3F5TKW2X2;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_NO_COMMON_BLOCKS = YES;
+				INFOPLIST_FILE = LBNetwork/Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 10.2;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MTL_ENABLE_DEBUG_INFO = NO;
+				PRODUCT_BUNDLE_IDENTIFIER = com.lenabru.LBNetwork;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Beta;
+		};
 		BF4DAB991D4606C700BF1761 /* Beta */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -731,7 +962,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		5A6594AD19A1D75600F0A43E /* Build configuration list for PBXNativeTarget "LBNetwork" */ = {
+		5A6594AD19A1D75600F0A43E /* Build configuration list for PBXNativeTarget "LBNetworkLib" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				5A6594AE19A1D75600F0A43E /* Debug */,
@@ -752,6 +983,16 @@
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
+		};
+		BF15A8CD1E535CB600B88D2B /* Build configuration list for PBXNativeTarget "LBNetwork" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				BF15A8CE1E535CB600B88D2B /* Debug */,
+				BF15A8CF1E535CB600B88D2B /* Release */,
+				BF15A8D01E535CB600B88D2B /* Ad Hoc */,
+				BF15A8D11E535CB600B88D2B /* Beta */,
+			);
+			defaultConfigurationIsVisible = 0;
 		};
 /* End XCConfigurationList section */
 	};

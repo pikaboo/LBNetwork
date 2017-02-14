@@ -14,8 +14,8 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "5A65948919A1D75600F0A43E"
-               BuildableName = "libLBNetwork.a"
+               BlueprintIdentifier = "BF15A8C71E535CB600B88D2B"
+               BuildableName = "LBNetwork.framework"
                BlueprintName = "LBNetwork"
                ReferencedContainer = "container:LBNetwork.xcodeproj">
             </BuildableReference>
@@ -28,26 +28,7 @@
       selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
       shouldUseLaunchSchemeArgsEnv = "YES">
       <Testables>
-         <TestableReference
-            skipped = "NO">
-            <BuildableReference
-               BuildableIdentifier = "primary"
-               BlueprintIdentifier = "5A65949919A1D75600F0A43E"
-               BuildableName = "LBNetworkTests.xctest"
-               BlueprintName = "LBNetworkTests"
-               ReferencedContainer = "container:LBNetwork.xcodeproj">
-            </BuildableReference>
-         </TestableReference>
       </Testables>
-      <MacroExpansion>
-         <BuildableReference
-            BuildableIdentifier = "primary"
-            BlueprintIdentifier = "5A65948919A1D75600F0A43E"
-            BuildableName = "libLBNetwork.a"
-            BlueprintName = "LBNetwork"
-            ReferencedContainer = "container:LBNetwork.xcodeproj">
-         </BuildableReference>
-      </MacroExpansion>
       <AdditionalOptions>
       </AdditionalOptions>
    </TestAction>
@@ -64,8 +45,8 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "5A65948919A1D75600F0A43E"
-            BuildableName = "libLBNetwork.a"
+            BlueprintIdentifier = "BF15A8C71E535CB600B88D2B"
+            BuildableName = "LBNetwork.framework"
             BlueprintName = "LBNetwork"
             ReferencedContainer = "container:LBNetwork.xcodeproj">
          </BuildableReference>
@@ -82,8 +63,8 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "5A65948919A1D75600F0A43E"
-            BuildableName = "libLBNetwork.a"
+            BlueprintIdentifier = "BF15A8C71E535CB600B88D2B"
+            BuildableName = "LBNetwork.framework"
             BlueprintName = "LBNetwork"
             ReferencedContainer = "container:LBNetwork.xcodeproj">
          </BuildableReference>
