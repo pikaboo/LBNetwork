@@ -59,6 +59,7 @@ static id sharedClient;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
         sharedClient = [[self alloc] init];
+        LogInfo(@"Initialized https client");
     });
     return sharedClient;
 }
@@ -85,6 +86,7 @@ static id sharedClient;
         self.connectionProperties.logLevel = LogLevelDebug;
         self.connectionQueue = [[NSOperationQueue alloc] init];
         self.connectionQueue.name = @"LBNetworkQueue";
+        self.certificateFromAuthority = YES;
     }
     return self;
 }
