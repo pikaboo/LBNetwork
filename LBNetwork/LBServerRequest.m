@@ -67,7 +67,15 @@
     return [self uploadRequest:imageData];
 }
 -(NSURL *)requestURL{
-    return [NSURL URLWithString:self.path];
+    return [NSURL URLWithString:[NSString stringWithFormat:@"%@",self.path]];
+}
+
+-(NSData *)requestBodyData{
+    if(!_requestBodyData && _requestBodyString){
+        NSData* data = [_requestBodyString dataUsingEncoding:NSUTF8StringEncoding];
+        return data;
+    }
+    return _requestBodyData;
 }
 
 -(instancetype)copy{

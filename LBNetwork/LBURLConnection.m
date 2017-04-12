@@ -24,6 +24,7 @@
 
 
 #import "LBNetwork.h"
+#import "Logging.h"
 @interface LBURLConnection ()
 @property(nonatomic,assign)id connectionDelegate;
 @end

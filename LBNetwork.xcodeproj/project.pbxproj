@@ -33,7 +33,7 @@
 		5A65949C19A1D75600F0A43E /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5A65949B19A1D75600F0A43E /* XCTest.framework */; };
 		5A65949D19A1D75600F0A43E /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5A65948D19A1D75600F0A43E /* Foundation.framework */; };
 		5A65949F19A1D75600F0A43E /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5A65949E19A1D75600F0A43E /* UIKit.framework */; };
-		5A6594A219A1D75600F0A43E /* libLBNetwork.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5A65948A19A1D75600F0A43E /* libLBNetwork.a */; };
+		5A6594A219A1D75600F0A43E /* libLBNetworkS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5A65948A19A1D75600F0A43E /* libLBNetworkS.a */; };
 		5A6594A819A1D75600F0A43E /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 5A6594A619A1D75600F0A43E /* InfoPlist.strings */; };
 		5A6594AA19A1D75600F0A43E /* LBNetworkTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A6594A919A1D75600F0A43E /* LBNetworkTests.m */; };
 		5A6594B619A1D88800F0A43E /* LBHTTPSClient.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A6594B519A1D88800F0A43E /* LBHTTPSClient.m */; };
@@ -51,7 +51,6 @@
 		BF15A8D81E535CE200B88D2B /* HTTPStatusCodes.h in Headers */ = {isa = PBXBuildFile; fileRef = 5A6594BC19A1DB3600F0A43E /* HTTPStatusCodes.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		BF15A8D91E535CE200B88D2B /* LBServerResponse.h in Headers */ = {isa = PBXBuildFile; fileRef = 5A6594B919A1D9E300F0A43E /* LBServerResponse.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		BF15A8DA1E535CE200B88D2B /* LBHTTPSClient.h in Headers */ = {isa = PBXBuildFile; fileRef = 5A6594B419A1D88800F0A43E /* LBHTTPSClient.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		BF15A8DB1E535CE200B88D2B /* Logging.h in Headers */ = {isa = PBXBuildFile; fileRef = 5A6594B319A1D7B300F0A43E /* Logging.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		BF15A8DC1E535CE200B88D2B /* LBURLConnectionProperties.h in Headers */ = {isa = PBXBuildFile; fileRef = 5A6594C219A1F04D00F0A43E /* LBURLConnectionProperties.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		BF15A8DD1E535CE200B88D2B /* LBServerRequest.h in Headers */ = {isa = PBXBuildFile; fileRef = BFB4C1C41B95D68C00ED8763 /* LBServerRequest.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		BF15A8DE1E535CE200B88D2B /* LBDeserializer.h in Headers */ = {isa = PBXBuildFile; fileRef = BF573F571B97289C001F5B6D /* LBDeserializer.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -64,6 +63,7 @@
 		BFB4C1C71B95D68C00ED8763 /* LBServerRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = BFB4C1C51B95D68C00ED8763 /* LBServerRequest.m */; };
 		BFB6547A1B7A361200A96D6F /* LICENSE in CopyFiles */ = {isa = PBXBuildFile; fileRef = BFB654791B7A35F700A96D6F /* LICENSE */; };
 		BFB6547D1B7A364800A96D6F /* LICENSE in Headers */ = {isa = PBXBuildFile; fileRef = BFB654791B7A35F700A96D6F /* LICENSE */; settings = {ATTRIBUTES = (Public, ); }; };
+		BFC726A01E93C0DA0042DED7 /* Logging.h in Headers */ = {isa = PBXBuildFile; fileRef = 5A6594B319A1D7B300F0A43E /* Logging.h */; settings = {ATTRIBUTES = (Public, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -97,7 +97,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		5A65948A19A1D75600F0A43E /* libLBNetwork.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libLBNetwork.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		5A65948A19A1D75600F0A43E /* libLBNetworkS.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libLBNetworkS.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		5A65948D19A1D75600F0A43E /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		5A65949119A1D75600F0A43E /* LBNetwork-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "LBNetwork-Prefix.pch"; sourceTree = "<group>"; };
 		5A65949A19A1D75600F0A43E /* LBNetworkTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = LBNetworkTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -118,7 +118,7 @@
 		5A6594C119A1DD7100F0A43E /* LBNetwork.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LBNetwork.h; sourceTree = "<group>"; };
 		5A6594C219A1F04D00F0A43E /* LBURLConnectionProperties.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LBURLConnectionProperties.h; sourceTree = "<group>"; };
 		5A6594C319A1F04D00F0A43E /* LBURLConnectionProperties.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LBURLConnectionProperties.m; sourceTree = "<group>"; };
-		BF15A8C81E535CB600B88D2B /* LBNetworkFramework.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = LBNetworkFramework.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		BF15A8C81E535CB600B88D2B /* LBNetwork.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = LBNetwork.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		BF15A8CA1E535CB600B88D2B /* LBNetwork.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LBNetwork.h; sourceTree = "<group>"; };
 		BF15A8CB1E535CB600B88D2B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		BF573F571B97289C001F5B6D /* LBDeserializer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LBDeserializer.h; sourceTree = "<group>"; };
@@ -141,7 +141,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				5A6594A219A1D75600F0A43E /* libLBNetwork.a in Frameworks */,
+				5A6594A219A1D75600F0A43E /* libLBNetworkS.a in Frameworks */,
 				5A65949C19A1D75600F0A43E /* XCTest.framework in Frameworks */,
 				5A65949F19A1D75600F0A43E /* UIKit.framework in Frameworks */,
 				5A65949D19A1D75600F0A43E /* Foundation.framework in Frameworks */,
@@ -174,9 +174,9 @@
 		5A65948B19A1D75600F0A43E /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				5A65948A19A1D75600F0A43E /* libLBNetwork.a */,
+				5A65948A19A1D75600F0A43E /* libLBNetworkS.a */,
 				5A65949A19A1D75600F0A43E /* LBNetworkTests.xctest */,
-				BF15A8C81E535CB600B88D2B /* LBNetworkFramework.framework */,
+				BF15A8C81E535CB600B88D2B /* LBNetwork.framework */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -279,10 +279,10 @@
 				BF15A8D81E535CE200B88D2B /* HTTPStatusCodes.h in Headers */,
 				BF15A8D91E535CE200B88D2B /* LBServerResponse.h in Headers */,
 				BF15A8DA1E535CE200B88D2B /* LBHTTPSClient.h in Headers */,
-				BF15A8DB1E535CE200B88D2B /* Logging.h in Headers */,
 				BF15A8DC1E535CE200B88D2B /* LBURLConnectionProperties.h in Headers */,
 				BF15A8DD1E535CE200B88D2B /* LBServerRequest.h in Headers */,
 				BF15A8FD1E53624F00B88D2B /* LICENSE in Headers */,
+				BFC726A01E93C0DA0042DED7 /* Logging.h in Headers */,
 				BF15A8DE1E535CE200B88D2B /* LBDeserializer.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -290,9 +290,9 @@
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
-		5A65948919A1D75600F0A43E /* LBNetwork */ = {
+		5A65948919A1D75600F0A43E /* LBNetworkS */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 5A6594AD19A1D75600F0A43E /* Build configuration list for PBXNativeTarget "LBNetwork" */;
+			buildConfigurationList = 5A6594AD19A1D75600F0A43E /* Build configuration list for PBXNativeTarget "LBNetworkS" */;
 			buildPhases = (
 				5A65948619A1D75600F0A43E /* Sources */,
 				5A65948719A1D75600F0A43E /* Frameworks */,
@@ -304,9 +304,9 @@
 			);
 			dependencies = (
 			);
-			name = LBNetwork;
+			name = LBNetworkS;
 			productName = LBNetwork;
-			productReference = 5A65948A19A1D75600F0A43E /* libLBNetwork.a */;
+			productReference = 5A65948A19A1D75600F0A43E /* libLBNetworkS.a */;
 			productType = "com.apple.product-type.library.static";
 		};
 		5A65949919A1D75600F0A43E /* LBNetworkTests */ = {
@@ -327,9 +327,9 @@
 			productReference = 5A65949A19A1D75600F0A43E /* LBNetworkTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
-		BF15A8C71E535CB600B88D2B /* LBNetworkFramework */ = {
+		BF15A8C71E535CB600B88D2B /* LBNetwork */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = BF15A8CD1E535CB600B88D2B /* Build configuration list for PBXNativeTarget "LBNetworkFramework" */;
+			buildConfigurationList = BF15A8CD1E535CB600B88D2B /* Build configuration list for PBXNativeTarget "LBNetwork" */;
 			buildPhases = (
 				BF15A8C31E535CB600B88D2B /* Sources */,
 				BF15A8C41E535CB600B88D2B /* Frameworks */,
@@ -340,9 +340,9 @@
 			);
 			dependencies = (
 			);
-			name = LBNetworkFramework;
+			name = LBNetwork;
 			productName = LBNetwork;
-			productReference = BF15A8C81E535CB600B88D2B /* LBNetworkFramework.framework */;
+			productReference = BF15A8C81E535CB600B88D2B /* LBNetwork.framework */;
 			productType = "com.apple.product-type.framework";
 		};
 /* End PBXNativeTarget section */
@@ -374,10 +374,10 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				5A65948919A1D75600F0A43E /* LBNetwork */,
+				5A65948919A1D75600F0A43E /* LBNetworkS */,
 				5A65949919A1D75600F0A43E /* LBNetworkTests */,
 				5A427D9919A3488800BAB461 /* Framework */,
-				BF15A8C71E535CB600B88D2B /* LBNetworkFramework */,
+				BF15A8C71E535CB600B88D2B /* LBNetwork */,
 			);
 		};
 /* End PBXProject section */
@@ -470,12 +470,12 @@
 /* Begin PBXTargetDependency section */
 		5A427D9E19A348A000BAB461 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 5A65948919A1D75600F0A43E /* LBNetwork */;
+			target = 5A65948919A1D75600F0A43E /* LBNetworkS */;
 			targetProxy = 5A427D9D19A348A000BAB461 /* PBXContainerItemProxy */;
 		};
 		5A6594A119A1D75600F0A43E /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 5A65948919A1D75600F0A43E /* LBNetwork */;
+			target = 5A65948919A1D75600F0A43E /* LBNetworkS */;
 			targetProxy = 5A6594A019A1D75600F0A43E /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
@@ -970,7 +970,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		5A6594AD19A1D75600F0A43E /* Build configuration list for PBXNativeTarget "LBNetwork" */ = {
+		5A6594AD19A1D75600F0A43E /* Build configuration list for PBXNativeTarget "LBNetworkS" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				5A6594AE19A1D75600F0A43E /* Debug */,
@@ -992,7 +992,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		BF15A8CD1E535CB600B88D2B /* Build configuration list for PBXNativeTarget "LBNetworkFramework" */ = {
+		BF15A8CD1E535CB600B88D2B /* Build configuration list for PBXNativeTarget "LBNetwork" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				BF15A8CE1E535CB600B88D2B /* Debug */,

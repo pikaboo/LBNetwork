@@ -31,6 +31,5 @@ FOUNDATION_EXPORT const unsigned char LBNetworkVersionString[];
 #import "LBURLConnection.h"
 #import "LBServerResponse.h"
 #import "LBURLConnectionProperties.h"
-#import "Logging.h"
 #import "HTTPStatusCodes.h"
 

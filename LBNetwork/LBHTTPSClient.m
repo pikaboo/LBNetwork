@@ -23,7 +23,7 @@
 //
 
 #import "LBNetwork.h"
-
+#import "Logging.h"
 NSString *const kMethodGET = @"GET";
 NSString *const kMethodPOST = @"POST";
 NSString *const kMethodPUT = @"PUT";
@@ -611,8 +611,8 @@ static id sharedClient;
 
 - (void)sendRequest:(LBServerRequest *)request {
 
-    LBLogInfo(@"sending %@ request to path:%@", request.method, request.path);
-    LBLogDebug(@"withParams:%@, andBody:%@, andHeaders:%@,handingResponse:%d", request.params, request.requestBodyString, request.headers, (request.successResponseHandler != nil));
+    LBLogInfo(@"sending %@ request to path:%@\n", request.method, request.path);
+    LBLogDebug(@"params:%@\n, body:%@\n, headers:%@\n,handingResponse:%d", request.params, request.requestBodyString, request.headers, (request.successResponseHandler != nil));
 
     [self asyncRequestDataForServerRequest:request];
 }
